@@ -1,0 +1,15 @@
+{
+  "mosqueName": "مسجد خليل عبد الرحمن",
+  "lang": "ar",
+  "slideSeconds": 12,
+  "tickerMessages": [
+    "يرجى إغلاق أو كتم صوت الهاتف.",
+    "بعد العشاء: درس قصير",
+    "التبرعات متاحة عند الإدارة"
+  ],
+  "media": [
+    "media/sample1.jpg",
+    "media/sample2.mp4"
+  ],
+  "quoteMode": "mix"
+}

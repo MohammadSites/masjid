@@ -1,0 +1,9 @@
+{
+  "name": "شاشة مسجد خليل عبد الرحمن (بدون إنترنت)",
+  "short_name": "MosqueScreens",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "background_color": "#07111a",
+  "theme_color": "#07111a",
+  "icons": []
+}
