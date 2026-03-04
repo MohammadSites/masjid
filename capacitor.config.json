@@ -1,0 +1,8 @@
+{
+  "appId": "com.masjid.screen",
+  "appName": "شاشة المسجد",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

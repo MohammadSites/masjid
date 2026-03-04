@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">شاشة المسجد</string>
+    <string name="title_activity_main">شاشة المسجد</string>
+    <string name="package_name">com.masjid.screen</string>
+    <string name="custom_url_scheme">com.masjid.screen</string>
+</resources>

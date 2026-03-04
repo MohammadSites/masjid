@@ -1,0 +1,12 @@
+.git
+node_modules
+*.md
+.gitignore
+.capacitorignore
+package.json
+package-lock.json
+capacitor.config.json
+vercel.json
+start-server.bat
+ANDROID_SETUP.md
+OFFLINE_USE.md
