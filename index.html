@@ -3,100 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>شاشة المسجد (بدون إنترنت)</title>
+  <title>شاشة المسجد</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="screen">
     <header class="topbar">
-      <div class="brand">
+      <div class="topbar-center">
         <div class="mosque-name" id="mosqueName">مسجد خليل عبد الرحمن</div>
-        <div class="meta">
-          <span id="todayDate"></span>
-          <span class="dot">•</span>
-          <span id="clock"></span>
-          <span class="dot">•</span>
-          <span class="deploy-badge" title="Deployed with Vercel">Vercel</span>
-        </div>
-      </div>
-
-      <div class="next">
-        <div class="label" id="nextLabel">الصلاة القادمة</div>
-        <div class="next-row">
-          <div class="next-name" id="nextPrayerName">—</div>
-          <div class="next-time" id="nextPrayerTime">—</div>
-        </div>
-        <div class="countdown" id="countdown">--:--:--</div>
       </div>
     </header>
 
-    <main class="content">
-      <section class="left">
-        <div class="card">
-          <div class="card-title" id="timesTitle">مواقيت الصلاة</div>
-          <div class="times" id="timesGrid"></div>
-        </div>
-
-        <div class="card rotate">
-          <div class="card-title" id="islamicTitle">تذكير</div>
-          <div class="quote" id="quoteText">—</div>
-          <div class="quote-src" id="quoteSource">—</div>
-        </div>
-      </section>
-
-      <section class="right">
-        <div class="media-frame" id="mediaFrame"></div>
-      </section>
+    <main class="hero">
+      <div class="hero-box" id="heroBox">
+        <div class="hero-time" id="clock">--:--:--</div>
+        <div class="hero-date" id="todayDate">—</div>
+        <div class="hero-next" id="heroNext">—</div>
+      </div>
+      <div class="adhkar-box" id="adhkarBox">
+        <div class="adhkar-title">الأذكار</div>
+      </div>
     </main>
 
-    <footer class="ticker">
-      <div class="ticker-track" id="tickerTrack"></div>
+    <section class="prayer-cards" id="prayerCards"></section>
+
+    <footer class="app-footer">
+      <div class="footer-left"></div>
+      <div class="footer-center">مواقيت</div>
+      <div class="footer-right"></div>
     </footer>
   </div>
 
-  <div class="admin-hint" id="adminHint">اضغط Shift + A للإدارة</div>
+  <div class="admin-hint" id="adminHint">Shift + A للإدارة</div>
 
   <dialog id="adminDialog">
     <form method="dialog" class="admin">
-      <h2>لوحة الإدارة (بدون إنترنت)</h2>
-
-      <label>
-        اسم المسجد
-        <input id="adminMosqueName" />
-      </label>
-
-      <label>
-        اللغة
+      <h2>لوحة الإدارة</h2>
+      <label>اسم المسجد <input id="adminMosqueName" /></label>
+      <label>اللغة
         <select id="adminLang">
           <option value="ar">العربية</option>
           <option value="en">English</option>
           <option value="he">עברית</option>
         </select>
       </label>
-
-      <label>
-        مدة عرض كل شريحة (بالثواني)
-        <input id="adminSlideSec" type="number" min="3" max="120" />
-      </label>
-
-      <label>
-        رسائل الشريط السفلي (سطر لكل رسالة)
-        <textarea id="adminTicker" rows="6"></textarea>
-      </label>
-
+      <label>مدة عرض كل شريحة (ثواني) <input id="adminSlideSec" type="number" min="3" max="120" /></label>
+      <label>رسائل الشريط السفلي (سطر لكل رسالة) <textarea id="adminTicker" rows="6"></textarea></label>
       <div class="row">
         <div class="box">
           <div class="box-title">استيراد timetable.csv</div>
           <input type="file" id="importTimetable" accept=".csv" />
-          <small>سيتم حفظه محليًا داخل المتصفح.</small>
         </div>
         <div class="box">
           <div class="box-title">استيراد config.json</div>
           <input type="file" id="importConfig" accept=".json" />
         </div>
       </div>
-
       <div class="actions">
         <button value="cancel">إغلاق</button>
         <button id="exportBtn" type="button">تصدير نسخة احتياطية</button>
