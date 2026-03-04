@@ -51,11 +51,6 @@ body::before {
   color: var(--text);
   letter-spacing: 0.02em;
 }
-.weather {
-  font-size: 18px;
-  color: var(--muted);
-}
-
 /* Hero: central time box */
 .hero {
   flex: 1;
@@ -154,19 +149,6 @@ body::before {
   color: var(--muted);
   margin-top: 2px;
 }
-
-/* Footer */
-.app-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 28px 16px;
-  background: rgba(0, 0, 0, 0.2);
-  font-size: 14px;
-  color: var(--muted);
-}
-.footer-left, .footer-right { min-width: 80px; }
-.footer-center { font-weight: 700; }
 
 /* Admin */
 .admin-hint {
