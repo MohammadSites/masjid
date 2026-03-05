@@ -58,7 +58,7 @@ jobs:
         run: |
           chmod +x android/gradlew
           cd android && ./gradlew assembleRelease --no-daemon \
-            -PRELEASE_STORE_FILE=app/release.keystore \
+            -PRELEASE_STORE_FILE=release.keystore \
             -PRELEASE_STORE_PASSWORD=android \
             -PRELEASE_KEY_ALIAS=masjid \
             -PRELEASE_KEY_PASSWORD=android
