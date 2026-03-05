@@ -54,17 +54,26 @@ jobs:
           keytool -genkey -v -keystore android/app/release.keystore -alias masjid -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android -dname "CN=Masjid, OU=App, O=Masjid, L=City, S=State, C=US"
 
-      - name: Build release APK
+      - name: Build debug and release APKs
         run: |
           chmod +x android/gradlew
-          cd android && ./gradlew assembleRelease --no-daemon \
+          cd android && ./gradlew assembleDebug assembleRelease --no-daemon \
             -PRELEASE_STORE_FILE=release.keystore \
             -PRELEASE_STORE_PASSWORD=android \
             -PRELEASE_KEY_ALIAS=masjid \
             -PRELEASE_KEY_PASSWORD=android
 
-      - name: Upload APK
+      - name: Verify release APK signature
+        run: |
+          $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Package both APKs
+        run: |
+          cd android/app/build/outputs/apk
+          zip -j masjid-screen-apks.zip debug/app-debug.apk release/app-release.apk
+
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
           name: masjid-screen-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          path: android/app/build/outputs/apk/masjid-screen-apks.zip
