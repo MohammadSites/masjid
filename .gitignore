@@ -3,3 +3,4 @@ package-lock.json
 www
 .DS_Store
 *.apk
+android/app/release.keystore
