@@ -9,6 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Fallback critical styles for older browsers/TV -->
+  <style>
+    body { background-color: #0a0a12; color: #fff; font-family: "Tajawal", Arial, sans-serif; }
+    .topbar { background: rgba(45, 25, 75, 0.9); padding: 16px; text-align: center; }
+    .mosque-name { color: #fff !important; font-size: 28px; font-weight: 800; }
+    .hero { display: flex; align-items: center; justify-content: center; flex: 1; padding: 24px; }
+    .hero-box { background: rgba(88, 52, 120, 0.85); padding: 40px; border-radius: 20px; text-align: center; }
+    .hero-time { color: #fff !important; font-size: 48px; font-weight: 900; }
+    .hero-date, .hero-next { color: rgba(255,255,255,0.85) !important; font-size: 18px; margin-top: 10px; }
+    .prayer-cards { display: flex; justify-content: center; gap: 12px; padding: 20px; flex-wrap: wrap; }
+    .prayer-card { background: rgba(45, 30, 65, 0.9); padding: 16px 20px; border-radius: 14px; text-align: center; min-width: 100px; }
+    .prayer-card .name { color: rgba(255,255,255,0.85) !important; font-size: 14px; margin-bottom: 6px; }
+    .prayer-card .time { color: #fff !important; font-size: 22px; font-weight: 900; }
+    .prayer-card .time-ampm { color: rgba(255,255,255,0.7) !important; font-size: 12px; }
+    .prayer-card.next { background: rgba(110, 70, 160, 0.95); }
+  </style>
 </head>
 <body>
   <div id="prayerTimeScreen" class="prayer-time-screen hidden">
@@ -34,7 +50,15 @@
       </div>
     </main>
 
-    <section class="prayer-cards" id="prayerCards"></section>
+    <section class="prayer-cards" id="prayerCards">
+      <!-- Fallback cards shown until JS loads -->
+      <div class="prayer-card"><div class="name">الشروق</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <div class="prayer-card"><div class="name">الفجر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <div class="prayer-card"><div class="name">الظهر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <div class="prayer-card"><div class="name">العصر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <div class="prayer-card"><div class="name">المغرب</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <div class="prayer-card"><div class="name">العشاء</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+    </section>
 
   </div>
 

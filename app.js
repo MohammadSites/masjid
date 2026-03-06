@@ -511,35 +511,62 @@ function wireAdmin(){
 }
 
 async function bootstrap(){
-  if("serviceWorker" in navigator){
-    try{ await navigator.serviceWorker.register("sw.js"); }catch{}
+  try {
+    if("serviceWorker" in navigator){
+      try{ await navigator.serviceWorker.register("sw.js"); }catch(e){ console.log("SW error:", e); }
+    }
+
+    cfg = getStoredConfig();
+    if(!cfg){
+      try {
+        cfg = await loadJSON(DEFAULTS_URL);
+      } catch(e) {
+        console.log("Config load error:", e);
+        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 12, tickerMessages: [] };
+      }
+      setStoredConfig(cfg);
+    }
+
+    // Always use the bundled Jerusalem timetable (data/timetable.csv) as the single source for every day/month
+    try {
+      const csv = await loadText(DEFAULT_TIMETABLE_URL);
+      const rawRows = parseCSV(csv);
+      if (isJerusalemFormat(rawRows)) {
+        timetableFormat = "jerusalem";
+        timetableRows = normalizeJerusalemRows(rawRows);
+      } else {
+        timetableRows = rawRows;
+      }
+    } catch(e) {
+      console.log("Timetable load error:", e);
+      timetableRows = [];
+    }
+
+    try{ hadithList = await loadJSON(HADITH_URL); }catch{ hadithList=[]; }
+    try{ quranList = await loadJSON(QURAN_URL); }catch{ quranList=[]; }
+
+    applyLang();
+    wireAdmin();
+
+    tick();
+    setInterval(tick, 1000);
+    setInterval(showQuote, 60 * 60 * 1000);
+  } catch(err) {
+    console.error("Bootstrap error:", err);
+    // Fallback: at least show something
+    const mosqueEl = document.getElementById("mosqueName");
+    if (mosqueEl) mosqueEl.textContent = "مسجد خليل عبد الرحمن";
+    const clockEl = document.getElementById("clock");
+    if (clockEl) {
+      setInterval(() => {
+        const now = new Date();
+        const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+        const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+        const ampm = h >= 12 ? "PM" : "AM";
+        clockEl.textContent = h12 + ":" + String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0") + " " + ampm;
+      }, 1000);
+    }
   }
-
-  cfg = getStoredConfig();
-  if(!cfg){
-    cfg = await loadJSON(DEFAULTS_URL);
-    setStoredConfig(cfg);
-  }
-
-  // Always use the bundled Jerusalem timetable (data/timetable.csv) as the single source for every day/month
-  const csv = await loadText(DEFAULT_TIMETABLE_URL);
-  const rawRows = parseCSV(csv);
-  if (isJerusalemFormat(rawRows)) {
-    timetableFormat = "jerusalem";
-    timetableRows = normalizeJerusalemRows(rawRows);
-  } else {
-    timetableRows = rawRows;
-  }
-
-  try{ hadithList = await loadJSON(HADITH_URL); }catch{ hadithList=[]; }
-  try{ quranList = await loadJSON(QURAN_URL); }catch{ quranList=[]; }
-
-  applyLang();
-  wireAdmin();
-
-  tick();
-  setInterval(tick, 1000);
-  setInterval(showQuote, 60 * 60 * 1000);
 }
 
 bootstrap();
