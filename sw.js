@@ -1,5 +1,5 @@
 // Cache version: bump when you want all devices to refresh cache
-const CACHE = "mosque-screens-offline-v3";
+const CACHE = "mosque-screens-offline-v4";
 
 const CORE = [
   "./",

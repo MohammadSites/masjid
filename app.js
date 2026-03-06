@@ -6,6 +6,47 @@ const QURAN_URL = "data/quran.json";
 const LS_CONFIG = "msq_cfg_v1";
 const LS_TIMETABLE = "msq_timetable_csv_v1";
 
+// Fallback timetable data (March) for TV browsers that can't load files
+const FALLBACK_TIMETABLE = [
+  {MonthNum:"3",Day:"1",fajr:"04:44",sunrise:"06:03",dhuhr:"11:51",asr:"15:08",maghrib:"17:43",isha:"18:58"},
+  {MonthNum:"3",Day:"2",fajr:"04:43",sunrise:"06:02",dhuhr:"11:51",asr:"15:08",maghrib:"17:44",isha:"18:58"},
+  {MonthNum:"3",Day:"3",fajr:"04:42",sunrise:"06:01",dhuhr:"11:51",asr:"15:09",maghrib:"17:44",isha:"18:59"},
+  {MonthNum:"3",Day:"4",fajr:"04:41",sunrise:"06:00",dhuhr:"11:50",asr:"15:09",maghrib:"17:45",isha:"19:00"},
+  {MonthNum:"3",Day:"5",fajr:"04:40",sunrise:"05:58",dhuhr:"11:50",asr:"15:10",maghrib:"17:46",isha:"19:01"},
+  {MonthNum:"3",Day:"6",fajr:"04:38",sunrise:"05:57",dhuhr:"11:50",asr:"15:10",maghrib:"17:47",isha:"19:01"},
+  {MonthNum:"3",Day:"7",fajr:"04:37",sunrise:"05:56",dhuhr:"11:50",asr:"15:10",maghrib:"17:47",isha:"19:02"},
+  {MonthNum:"3",Day:"8",fajr:"04:36",sunrise:"05:55",dhuhr:"11:49",asr:"15:11",maghrib:"17:48",isha:"19:03"},
+  {MonthNum:"3",Day:"9",fajr:"04:35",sunrise:"05:54",dhuhr:"11:49",asr:"15:11",maghrib:"17:49",isha:"19:04"},
+  {MonthNum:"3",Day:"10",fajr:"04:34",sunrise:"05:52",dhuhr:"11:49",asr:"15:11",maghrib:"17:50",isha:"19:04"},
+  {MonthNum:"3",Day:"11",fajr:"04:32",sunrise:"05:51",dhuhr:"11:49",asr:"15:12",maghrib:"17:50",isha:"19:05"},
+  {MonthNum:"3",Day:"12",fajr:"04:31",sunrise:"05:50",dhuhr:"11:48",asr:"15:12",maghrib:"17:51",isha:"19:06"},
+  {MonthNum:"3",Day:"13",fajr:"04:30",sunrise:"05:49",dhuhr:"11:48",asr:"15:12",maghrib:"17:52",isha:"19:07"},
+  {MonthNum:"3",Day:"14",fajr:"04:28",sunrise:"05:47",dhuhr:"11:48",asr:"15:12",maghrib:"17:53",isha:"19:08"},
+  {MonthNum:"3",Day:"15",fajr:"04:27",sunrise:"05:46",dhuhr:"11:48",asr:"15:13",maghrib:"17:53",isha:"19:08"},
+  {MonthNum:"3",Day:"16",fajr:"04:26",sunrise:"05:45",dhuhr:"11:47",asr:"15:13",maghrib:"17:54",isha:"19:09"},
+  {MonthNum:"3",Day:"17",fajr:"04:24",sunrise:"05:43",dhuhr:"11:47",asr:"15:13",maghrib:"17:55",isha:"19:10"},
+  {MonthNum:"3",Day:"18",fajr:"04:23",sunrise:"05:42",dhuhr:"11:47",asr:"15:13",maghrib:"17:55",isha:"19:11"},
+  {MonthNum:"3",Day:"19",fajr:"04:22",sunrise:"05:41",dhuhr:"11:46",asr:"15:14",maghrib:"17:56",isha:"19:11"},
+  {MonthNum:"3",Day:"20",fajr:"04:20",sunrise:"05:40",dhuhr:"11:46",asr:"15:14",maghrib:"17:57",isha:"19:12"},
+  {MonthNum:"3",Day:"21",fajr:"04:19",sunrise:"05:38",dhuhr:"11:46",asr:"15:14",maghrib:"17:58",isha:"19:13"},
+  {MonthNum:"3",Day:"22",fajr:"04:17",sunrise:"05:37",dhuhr:"11:46",asr:"15:14",maghrib:"17:58",isha:"19:14"},
+  {MonthNum:"3",Day:"23",fajr:"04:16",sunrise:"05:36",dhuhr:"11:45",asr:"15:14",maghrib:"17:59",isha:"19:14"},
+  {MonthNum:"3",Day:"24",fajr:"04:15",sunrise:"05:34",dhuhr:"11:45",asr:"15:14",maghrib:"18:00",isha:"19:15"},
+  {MonthNum:"3",Day:"25",fajr:"04:13",sunrise:"05:33",dhuhr:"11:45",asr:"15:15",maghrib:"18:00",isha:"19:16"},
+  {MonthNum:"3",Day:"26",fajr:"04:12",sunrise:"05:32",dhuhr:"11:44",asr:"15:15",maghrib:"18:01",isha:"19:17"},
+  {MonthNum:"3",Day:"27",fajr:"04:10",sunrise:"05:30",dhuhr:"11:44",asr:"15:15",maghrib:"18:02",isha:"19:18"},
+  {MonthNum:"3",Day:"28",fajr:"04:09",sunrise:"05:29",dhuhr:"11:44",asr:"15:15",maghrib:"18:02",isha:"19:19"},
+  {MonthNum:"3",Day:"29",fajr:"04:08",sunrise:"05:28",dhuhr:"11:43",asr:"15:15",maghrib:"18:03",isha:"19:19"},
+  {MonthNum:"3",Day:"30",fajr:"04:06",sunrise:"05:27",dhuhr:"11:43",asr:"15:15",maghrib:"18:04",isha:"19:20"},
+  {MonthNum:"3",Day:"31",fajr:"04:05",sunrise:"05:25",dhuhr:"11:43",asr:"15:15",maghrib:"18:05",isha:"19:21"}
+];
+
+const FALLBACK_HADITH = [
+  {text:"إنما الأعمالُ بالنيات.", source:"متفق عليه"},
+  {text:"تبسُّمك في وجه أخيك صدقة.", source:"الترمذي"},
+  {text:"الراحمون يرحمهم الرحمن.", source:"الترمذي"}
+];
+
 let cfg = null;
 let timetableRows = [];
 let timetableFormat = "iso"; // "iso" = date column YYYY-MM-DD, "jerusalem" = MonthNum + Day
@@ -538,12 +579,25 @@ async function bootstrap(){
         timetableRows = rawRows;
       }
     } catch(e) {
-      console.log("Timetable load error:", e);
-      timetableRows = [];
+      console.log("Timetable load error, using fallback:", e);
+      timetableFormat = "jerusalem";
+      timetableRows = FALLBACK_TIMETABLE;
+    }
+    
+    // Use fallback if no rows loaded
+    if (!timetableRows || timetableRows.length === 0) {
+      console.log("No timetable rows, using fallback");
+      timetableFormat = "jerusalem";
+      timetableRows = FALLBACK_TIMETABLE;
     }
 
-    try{ hadithList = await loadJSON(HADITH_URL); }catch{ hadithList=[]; }
+    try{ hadithList = await loadJSON(HADITH_URL); }catch{ hadithList = FALLBACK_HADITH; }
     try{ quranList = await loadJSON(QURAN_URL); }catch{ quranList=[]; }
+    
+    // Use fallback hadith if empty
+    if (!hadithList || hadithList.length === 0) {
+      hadithList = FALLBACK_HADITH;
+    }
 
     applyLang();
     wireAdmin();
