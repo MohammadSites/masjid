@@ -104,10 +104,24 @@ body::before {
   justify-content: center;
 }
 .adhkar-title {
-  font-size: 2.5rem;
-  font-weight: 900;
-  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--muted);
   letter-spacing: 0.02em;
+  margin-bottom: 20px;
+}
+.adhkar-quote {
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-bottom: 14px;
+}
+.adhkar-source {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--muted);
 }
 
 /* Prayer cards row */

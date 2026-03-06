@@ -12,6 +12,11 @@ let timetableFormat = "iso"; // "iso" = date column YYYY-MM-DD, "jerusalem" = Mo
 let hadithList = [];
 let quranList = [];
 let mediaIndex = 0;
+let adhkarQuoteIndex = 0;
+let lastAdhkarAdvanceTime = null;
+let adhkarCyclesComplete = false;
+
+const ADHKAR_SLIDE_SECONDS = 6;
 
 const el = (id) => document.getElementById(id);
 
@@ -281,15 +286,18 @@ function renderTicker(){
   track.style.animationDuration = `${sec}s`;
 }
 
-function pickQuote(){
-  const mode = cfg.quoteMode || "mix";
-  let pool = [];
-  if(mode==="hadith") pool = hadithList.map(x=>({text:x.text, source:x.source}));
-  else if(mode==="quran") pool = quranList.map(x=>({text:x.text, source:x.source}));
-  else pool = [
-    ...hadithList.map(x=>({text:x.text, source:x.source})),
-    ...quranList.map(x=>({text:x.text, source:x.source}))
+function getAdhkarList(){
+  const mode = cfg && cfg.quoteMode ? cfg.quoteMode : "mix";
+  if (mode === "hadith") return hadithList.map(x => ({ text: x.text, source: x.source }));
+  if (mode === "quran") return quranList.map(x => ({ text: x.text, source: x.source }));
+  return [
+    ...hadithList.map(x => ({ text: x.text, source: x.source })),
+    ...quranList.map(x => ({ text: x.text, source: x.source }))
   ];
+}
+
+function pickQuote(){
+  const pool = getAdhkarList();
   if(!pool.length) return {text:"—", source:"—"};
   const idx = Math.floor(Math.random()*pool.length);
   return pool[idx];
@@ -354,10 +362,48 @@ function tick(){
   }
 
   const state = getHeroState(row, now);
+
+  if (state.mode !== "adhkar") {
+    adhkarQuoteIndex = 0;
+    lastAdhkarAdvanceTime = null;
+    adhkarCyclesComplete = false;
+  }
+
   if (state.mode === "adhkar") {
-    if(heroBox) heroBox.classList.add("hidden");
-    if(adhkarBox) adhkarBox.classList.add("visible");
-    if(heroNextEl) heroNextEl.textContent = "—";
+    if (adhkarCyclesComplete) {
+      if(heroBox) heroBox.classList.remove("hidden");
+      if(adhkarBox) adhkarBox.classList.remove("visible");
+      const next = computeNextPrayer(row);
+      const diff = next.dt - now;
+      const total = Math.max(0, Math.floor(diff/1000));
+      const h = Math.floor(total/3600);
+      const m = Math.floor((total%3600)/60);
+      if(heroNextEl) heroNextEl.textContent = `${next.name} بعد ${pad2(h)}:${pad2(m)}`;
+    } else {
+      if(heroBox) heroBox.classList.add("hidden");
+      if(adhkarBox) adhkarBox.classList.add("visible");
+      if(heroNextEl) heroNextEl.textContent = "—";
+      const list = getAdhkarList();
+      if (list.length === 0) {
+        adhkarCyclesComplete = true;
+      } else {
+        if (lastAdhkarAdvanceTime === null) lastAdhkarAdvanceTime = now;
+        const elapsed = (now - lastAdhkarAdvanceTime) / 1000;
+        if (elapsed >= ADHKAR_SLIDE_SECONDS) {
+          adhkarQuoteIndex++;
+          lastAdhkarAdvanceTime = now;
+          if (adhkarQuoteIndex >= list.length) {
+            adhkarQuoteIndex = list.length - 1;
+            adhkarCyclesComplete = true;
+          }
+        }
+        const q = list[adhkarQuoteIndex];
+        const quoteEl = el("adhkarQuoteText");
+        const sourceEl = el("adhkarQuoteSource");
+        if (quoteEl) quoteEl.textContent = q.text;
+        if (sourceEl) sourceEl.textContent = q.source;
+      }
+    }
   } else {
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
