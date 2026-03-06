@@ -173,7 +173,8 @@ function findTodayRow(){
   return timetableRows.find(r => r.date === id) || null;
 }
 
-const IQAMAH_OFFSET_MINUTES = { fajr: 30, dhuhr: 15, asr: 15, maghrib: 10, isha: 15 };
+const IQAMAH_OFFSET_MINUTES = { fajr: 25, dhuhr: 15, asr: 15, maghrib: 10, isha: 10 };
+const ADHKAR_DURATION_MINUTES = 6;
 const PRAYER_KEYS = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 function prayerName(key){
   const names = { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" };
@@ -189,12 +190,16 @@ function getHeroState(todayRow, now){
   }));
   for (const p of list) {
     const iqamahTime = new Date(p.adhanTime.getTime() + p.offsetMin * 60 * 1000);
+    const adhkarEndTime = new Date(iqamahTime.getTime() + ADHKAR_DURATION_MINUTES * 60 * 1000);
     if (now < p.adhanTime)
       return { mode: "next", nextPrayer: p, nextAt: p.adhanTime };
     if (now < iqamahTime)
       return { mode: "iqamah", prayer: p, iqamahAt: iqamahTime };
+    if (now < adhkarEndTime)
+      return { mode: "adhkar" };
   }
-  return { mode: "adhkar" };
+  const next = computeNextPrayer(todayRow);
+  return { mode: "next", nextPrayer: { key: next.key, name: next.name, adhanTime: next.dt }, nextAt: next.dt };
 }
 
 function computeNextPrayer(todayRow){

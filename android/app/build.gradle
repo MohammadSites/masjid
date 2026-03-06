@@ -4,7 +4,7 @@ android {
     namespace "com.masjid.screen"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.masjidscreen.app"
+        applicationId "com.masjid.screen"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
