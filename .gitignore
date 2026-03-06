@@ -1,6 +1,7 @@
 node_modules
 package-lock.json
 www
+public
 .DS_Store
 *.apk
 android/app/release.keystore

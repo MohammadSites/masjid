@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "شاشة المسجد - مواقيت الصلاة (يعمل بدون إنترنت)",
   "scripts": {
-    "build": "echo No build step - static app",
+    "build": "node scripts/copy-to-public.js",
     "copy-to-www": "node scripts/copy-to-www.js",
     "cap:sync": "node scripts/copy-to-www.js && cap sync android",
     "cap:open:android": "cap open android",
