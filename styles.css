@@ -6,6 +6,8 @@
   --muted: rgba(255, 255, 255, 0.85);
   --radius: 20px;
   --radius-sm: 14px;
+  --text-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.35);
+  --text-shadow-strong: 0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4);
 }
 
 * { box-sizing: border-box; }
@@ -21,9 +23,30 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.15) 50%, rgba(0,0,0,.35) 100%);
+  background: linear-gradient(165deg, rgba(0,0,0,.3) 0%, rgba(20,10,40,.25) 40%, rgba(0,0,0,.2) 70%, rgba(0,0,0,.4) 100%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Full-screen black "وقت الصلاة" (8 min after iqamah) */
+.prayer-time-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-time-screen.hidden {
+  display: none;
+}
+.prayer-time-text {
+  font-size: clamp(3rem, 12vw, 6rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 4px 24px rgba(255,255,255,0.15);
+  letter-spacing: 0.02em;
 }
 
 .screen {
@@ -41,7 +64,8 @@ body::before {
   justify-content: center;
   align-items: center;
   padding: 16px 28px;
-  background: rgba(0, 0, 0, 0.25);
+  background: linear-gradient(135deg, rgba(45, 25, 75, 0.9) 0%, rgba(25, 15, 45, 0.85) 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 .topbar-center { text-align: center; }
 
@@ -50,6 +74,7 @@ body::before {
   font-weight: 800;
   color: var(--text);
   letter-spacing: 0.02em;
+  text-shadow: var(--text-shadow-strong);
 }
 /* Hero: central time box */
 .hero {
@@ -60,13 +85,13 @@ body::before {
   padding: 24px;
 }
 .hero-box {
-  background: var(--panel);
+  background: linear-gradient(145deg, rgba(88, 52, 120, 0.88) 0%, rgba(55, 35, 85, 0.9) 50%, rgba(45, 28, 70, 0.92) 100%);
   border-radius: var(--radius);
   padding: 42px 56px;
   text-align: center;
   min-width: 380px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
 }
 .hero-time {
   font-size: clamp(2.5rem, 6vw, 4rem);
@@ -74,28 +99,31 @@ body::before {
   letter-spacing: 2px;
   line-height: 1.1;
   color: var(--text);
+  text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
   font-size: 1.35rem;
   color: var(--muted);
   margin-top: 12px;
+  text-shadow: var(--text-shadow);
 }
 .hero-next {
   font-size: 1.15rem;
   color: var(--muted);
   margin-top: 14px;
+  text-shadow: var(--text-shadow);
 }
 
 .hero-box.hidden { display: none; }
 .adhkar-box {
   display: none;
-  background: var(--panel);
+  background: linear-gradient(145deg, rgba(70, 45, 110, 0.9) 0%, rgba(50, 30, 80, 0.92) 100%);
   border-radius: var(--radius);
   padding: 48px 56px;
   text-align: center;
   min-width: 380px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
 }
 .adhkar-box.visible {
   display: flex;
@@ -109,6 +137,7 @@ body::before {
   color: var(--muted);
   letter-spacing: 0.02em;
   margin-bottom: 20px;
+  text-shadow: var(--text-shadow);
 }
 .adhkar-quote {
   font-size: clamp(1.25rem, 3vw, 2rem);
@@ -117,11 +146,13 @@ body::before {
   line-height: 1.6;
   max-width: 520px;
   margin-bottom: 14px;
+  text-shadow: var(--text-shadow-strong);
 }
 .adhkar-source {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--muted);
+  text-shadow: var(--text-shadow);
 }
 
 /* Prayer cards row */
@@ -133,35 +164,38 @@ body::before {
   flex-wrap: wrap;
 }
 .prayer-card {
-  background: var(--panel-dark);
+  background: linear-gradient(160deg, rgba(40, 25, 60, 0.9) 0%, rgba(30, 18, 50, 0.92) 100%);
   border-radius: var(--radius-sm);
   padding: 16px 20px;
   min-width: 120px;
   text-align: center;
   backdrop-filter: blur(6px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 .prayer-card.next {
-  background: var(--panel-next);
-  box-shadow: 0 0 0 2px rgba(255,255,255,.2);
+  background: linear-gradient(160deg, rgba(110, 70, 160, 0.95) 0%, rgba(85, 50, 130, 0.95) 100%);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.25), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .prayer-card .name {
   font-size: 1rem;
   font-weight: 700;
   color: var(--muted);
   margin-bottom: 8px;
+  text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
   font-size: 1.5rem;
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
+  text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
+  text-shadow: var(--text-shadow);
 }
 
 /* Admin */

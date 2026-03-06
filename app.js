@@ -179,7 +179,7 @@ function findTodayRow(){
 }
 
 const IQAMAH_OFFSET_MINUTES = { fajr: 25, dhuhr: 15, asr: 15, maghrib: 10, isha: 10 };
-const ADHKAR_DURATION_MINUTES = 6;
+const ADHKAR_DURATION_MINUTES = 8;
 const PRAYER_KEYS = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 function prayerName(key){
   const names = { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" };
@@ -350,6 +350,7 @@ function tick(){
   const heroNextEl = el("heroNext");
   const heroBox = el("heroBox");
   const adhkarBox = el("adhkarBox");
+  const prayerTimeScreen = el("prayerTimeScreen");
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
 
@@ -358,6 +359,7 @@ function tick(){
     if(heroNextEl) heroNextEl.textContent = "—";
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     return;
   }
 
@@ -370,6 +372,7 @@ function tick(){
   }
 
   if (state.mode === "adhkar") {
+    if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (adhkarCyclesComplete) {
       if(heroBox) heroBox.classList.remove("hidden");
       if(adhkarBox) adhkarBox.classList.remove("visible");
@@ -404,21 +407,21 @@ function tick(){
         if (sourceEl) sourceEl.textContent = q.source;
       }
     }
+  } else if (state.mode === "wait_adhkar") {
+    if(heroBox) heroBox.classList.add("hidden");
+    if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
+    if(heroNextEl) heroNextEl.textContent = "—";
   } else {
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (state.mode === "next") {
       const diff = state.nextAt - now;
       const total = Math.max(0, Math.floor(diff/1000));
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
       if(heroNextEl) heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}`;
-    } else if (state.mode === "wait_adhkar") {
-      const diff = state.showAdhkarAt - now;
-      const total = Math.max(0, Math.floor(diff/1000));
-      const m = Math.floor(total/60);
-      const s = total % 60;
-      if(heroNextEl) heroNextEl.textContent = cfg && cfg.lang === "ar" ? `الأذكار بعد ${pad2(m)}:${pad2(s)}` : `Adhkar in ${pad2(m)}:${pad2(s)}`;
     } else {
       const diff = state.iqamahAt - now;
       const total = Math.max(0, Math.floor(diff/1000));
