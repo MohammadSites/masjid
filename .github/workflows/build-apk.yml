@@ -48,31 +48,44 @@ jobs:
         run: |
           echo "sdk.dir=$ANDROID_HOME" >> android/local.properties
 
-      - name: Create release keystore
+      - name: Create keystores
         run: |
           mkdir -p android/app
+          # Create consistent debug keystore
+          keytool -genkey -v -keystore android/app/debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
+          # Create release keystore
           keytool -genkey -v -keystore android/app/release.keystore -alias masjid -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android -dname "CN=Masjid, OU=App, O=Masjid, L=City, S=State, C=US"
 
       - name: Build debug and release APKs
         run: |
           chmod +x android/gradlew
-          cd android && ./gradlew assembleDebug assembleRelease --no-daemon \
+          cd android && ./gradlew assembleDebug assembleRelease --no-daemon --stacktrace \
+            -Pandroid.injected.testOnly=false \
             -PRELEASE_STORE_FILE=release.keystore \
             -PRELEASE_STORE_PASSWORD=android \
             -PRELEASE_KEY_ALIAS=masjid \
             -PRELEASE_KEY_PASSWORD=android
 
-      - name: Verify release APK signature
+      - name: Verify APK signatures
         run: |
+          echo "=== Verifying Debug APK ==="
+          $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose android/app/build/outputs/apk/debug/app-debug.apk || true
+          echo "=== Verifying Release APK ==="
           $ANDROID_HOME/build-tools/34.0.0/apksigner verify --verbose android/app/build/outputs/apk/release/app-release.apk
 
       - name: Show APK info (to confirm APK is valid)
         run: |
           echo "=== Debug APK info ==="
-          $ANDROID_HOME/build-tools/34.0.0/aapt dump badging android/app/build/outputs/apk/debug/app-debug.apk | head -5
+          $ANDROID_HOME/build-tools/34.0.0/aapt dump badging android/app/build/outputs/apk/debug/app-debug.apk | head -10
+          echo ""
           echo "=== Release APK info ==="
-          $ANDROID_HOME/build-tools/34.0.0/aapt dump badging android/app/build/outputs/apk/release/app-release.apk | head -5
+          $ANDROID_HOME/build-tools/34.0.0/aapt dump badging android/app/build/outputs/apk/release/app-release.apk | head -10
+          echo ""
+          echo "=== APK file sizes ==="
+          ls -lh android/app/build/outputs/apk/debug/app-debug.apk
+          ls -lh android/app/build/outputs/apk/release/app-release.apk
 
       - name: Package both APKs
         run: |
