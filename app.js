@@ -181,6 +181,19 @@ function prayerName(key){
   return cfg && cfg.lang === "ar" ? names[key] : key;
 }
 
+function getNextDayFajr(now) {
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  let tomRow = null;
+  if (timetableFormat === "jerusalem") {
+    const m = tomorrow.getMonth() + 1, d = tomorrow.getDate();
+    tomRow = timetableRows.find(r => Number(r.MonthNum) === m && Number(r.Day) === d);
+  } else {
+    tomRow = timetableRows.find(r => r.date === todayISO(tomorrow));
+  }
+  return tomRow ? hhmmToDate(tomRow.fajr, tomorrow) : null;
+}
+
 function getHeroState(todayRow, now){
   const list = PRAYER_KEYS.map(key => ({
     key,
@@ -188,14 +201,18 @@ function getHeroState(todayRow, now){
     adhanTime: hhmmToDate(todayRow[key], now),
     offsetMin: IQAMAH_OFFSET_MINUTES[key]
   }));
-  for (const p of list) {
+  for (let i = 0; i < list.length; i++) {
+    const p = list[i];
     const iqamahTime = new Date(p.adhanTime.getTime() + p.offsetMin * 60 * 1000);
-    const adhkarEndTime = new Date(iqamahTime.getTime() + ADHKAR_DURATION_MINUTES * 60 * 1000);
+    const adhkarStartTime = new Date(iqamahTime.getTime() + ADHKAR_DURATION_MINUTES * 60 * 1000);
+    const nextAdhanTime = i < list.length - 1 ? list[i + 1].adhanTime : getNextDayFajr(now);
     if (now < p.adhanTime)
       return { mode: "next", nextPrayer: p, nextAt: p.adhanTime };
     if (now < iqamahTime)
       return { mode: "iqamah", prayer: p, iqamahAt: iqamahTime };
-    if (now < adhkarEndTime)
+    if (now < adhkarStartTime)
+      return { mode: "wait_adhkar", showAdhkarAt: adhkarStartTime };
+    if (nextAdhanTime && now < nextAdhanTime)
       return { mode: "adhkar" };
   }
   const next = computeNextPrayer(todayRow);
@@ -350,6 +367,12 @@ function tick(){
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
       if(heroNextEl) heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}`;
+    } else if (state.mode === "wait_adhkar") {
+      const diff = state.showAdhkarAt - now;
+      const total = Math.max(0, Math.floor(diff/1000));
+      const m = Math.floor(total/60);
+      const s = total % 60;
+      if(heroNextEl) heroNextEl.textContent = cfg && cfg.lang === "ar" ? `الأذكار بعد ${pad2(m)}:${pad2(s)}` : `Adhkar in ${pad2(m)}:${pad2(s)}`;
     } else {
       const diff = state.iqamahAt - now;
       const total = Math.max(0, Math.floor(diff/1000));
