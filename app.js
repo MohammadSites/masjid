@@ -484,7 +484,7 @@ function openAdmin(){
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
   const bootRow = document.getElementById("adminStartOnBootRow");
   const bootCb = el("adminStartOnBoot");
-  if (bootRow) bootRow.style.display = window.Capacitor ? "" : "none";
+  if (bootRow) bootRow.style.display = ""; /* always show: boot option for TV APK */
   if (window.StartOnBootPlugin) {
     window.StartOnBootPlugin.getEnabled().then(function(r){ if (bootCb) bootCb.checked = r.enabled === true; }).catch(function(){});
   }
@@ -493,7 +493,14 @@ function openAdmin(){
 
 function wireAdmin(){
   var hintBtn = el("adminHint");
-  if (hintBtn) hintBtn.addEventListener("click", openAdmin);
+  if (hintBtn) {
+    function openAdminFromIcon(e) {
+      if (e && e.type === "touchend") e.preventDefault();
+      openAdmin();
+    }
+    hintBtn.addEventListener("click", openAdminFromIcon);
+    hintBtn.addEventListener("touchend", openAdminFromIcon, { passive: false });
+  }
   document.addEventListener("keydown", (e)=>{
     if(e.shiftKey && (e.key==="A" || e.key==="a")){
       openAdmin();
