@@ -5,3 +5,4 @@ public
 .DS_Store
 *.apk
 android/app/release.keystore
+scripts/font-css.txt
