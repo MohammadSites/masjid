@@ -492,6 +492,8 @@ function openAdmin(){
 }
 
 function wireAdmin(){
+  var hintBtn = el("adminHint");
+  if (hintBtn) hintBtn.addEventListener("click", openAdmin);
   document.addEventListener("keydown", (e)=>{
     if(e.shiftKey && (e.key==="A" || e.key==="a")){
       openAdmin();

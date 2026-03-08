@@ -28,6 +28,8 @@
     .prayer-card .time { color: #fff !important; font-size: 22px; font-weight: 900; }
     .prayer-card .time-ampm { color: rgba(255,255,255,0.7) !important; font-size: 12px; }
     .prayer-card.next { background: rgba(110, 70, 160, 0.95); }
+    .admin-settings-btn { position: fixed; left: 14px; bottom: 14px; width: 48px; height: 48px; max-width: 100px; max-height: 100px; padding: 0; border: none; border-radius: 50%; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .admin-settings-icon { width: 28px; height: 28px; }
   </style>
 </head>
 <body>
@@ -66,7 +68,11 @@
 
   </div>
 
-  <div class="admin-hint" id="adminHint">Shift + A للإدارة</div>
+  <button type="button" class="admin-settings-btn" id="adminHint" aria-label="الإعدادات">
+    <svg class="admin-settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  </button>
 
   <dialog id="adminDialog">
     <form method="dialog" class="admin">

@@ -209,13 +209,37 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 
-/* Admin */
-.admin-hint {
+/* Admin – settings icon (same place, max 100px) */
+.admin-settings-btn {
   position: fixed;
   left: 14px;
   bottom: 14px;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 12px;
+  width: 48px;
+  height: 48px;
+  max-width: 100px;
+  max-height: 100px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+}
+.admin-settings-btn:hover,
+.admin-settings-btn:focus {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+.admin-settings-icon {
+  width: 28px;
+  height: 28px;
+  max-width: 64px;
+  max-height: 64px;
 }
 
 dialog {
