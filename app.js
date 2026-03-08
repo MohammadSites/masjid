@@ -482,6 +482,12 @@ function openAdmin(){
   el("adminLang").value = cfg.lang || "ar";
   el("adminSlideSec").value = cfg.slideSeconds || 12;
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
+  const bootRow = document.getElementById("adminStartOnBootRow");
+  const bootCb = el("adminStartOnBoot");
+  if (bootRow) bootRow.style.display = window.Capacitor ? "" : "none";
+  if (window.StartOnBootPlugin) {
+    window.StartOnBootPlugin.getEnabled().then(function(r){ if (bootCb) bootCb.checked = r.enabled === true; }).catch(function(){});
+  }
   d.showModal();
 }
 
@@ -498,6 +504,9 @@ function wireAdmin(){
     cfg.slideSeconds = Number(el("adminSlideSec").value) || 12;
     cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
     setStoredConfig(cfg);
+    if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
+      window.StartOnBootPlugin.setEnabled({ enabled: el("adminStartOnBoot").checked }).catch(function(){});
+    }
     applyLang();
   });
 

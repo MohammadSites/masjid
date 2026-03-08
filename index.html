@@ -80,6 +80,7 @@
         </select>
       </label>
       <label>مدة عرض كل شريحة (ثواني) <input id="adminSlideSec" type="number" min="3" max="120" /></label>
+      <label class="row-label" id="adminStartOnBootRow"><input type="checkbox" id="adminStartOnBoot" /> تشغيل التطبيق عند بدء التشغيل (للتلفزيون)</label>
       <label>رسائل الشريط السفلي (سطر لكل رسالة) <textarea id="adminTicker" rows="6"></textarea></label>
       <div class="row">
         <div class="box">
@@ -99,6 +100,11 @@
     </form>
   </dialog>
 
+  <script type="module">
+    import('https://unpkg.com/@capacitor/core@6/dist/esm/index.js').then(function(m) {
+      if (window.Capacitor) window.StartOnBootPlugin = m.registerPlugin('StartOnBoot');
+    }).catch(function() {});
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
