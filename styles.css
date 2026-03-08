@@ -163,13 +163,13 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 
-/* Prayer cards row - larger cards, moved up */
+/* Prayer cards row - 30% larger, moved up */
 .prayer-cards {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 18px;
-  padding: 16px 24px 28px;
+  gap: 23px;
+  padding: 12px 24px 28px;
   flex-wrap: wrap;
   flex: 1;
   min-height: 0;
@@ -177,8 +177,8 @@ body::before {
 .prayer-card {
   background: linear-gradient(160deg, rgba(40, 25, 60, 0.9) 0%, rgba(30, 18, 50, 0.92) 100%);
   border-radius: var(--radius-sm);
-  padding: 20px 26px;
-  min-width: 150px;
+  padding: 26px 34px;
+  min-width: 195px;
   text-align: center;
   backdrop-filter: blur(6px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -188,21 +188,21 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.25), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .prayer-card .name {
-  font-size: 1.15rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--muted);
-  margin-bottom: 10px;
+  margin-bottom: 13px;
   text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
-  font-size: 1.85rem;
+  font-size: 2.4rem;
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
   text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
-  font-size: 0.95rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
@@ -253,13 +253,13 @@ dialog {
 }
 #saveBtn { background: #7c4dff; color: #fff; }
 
-/* TV / large screens: even larger cards */
+/* TV / large screens: 30% larger cards */
 @media (min-width: 1200px) {
-  .prayer-cards { gap: 22px; padding: 20px 28px 32px; }
-  .prayer-card { min-width: 180px; padding: 22px 28px; }
-  .prayer-card .name { font-size: 1.35rem; }
-  .prayer-card .time { font-size: 2.2rem; }
-  .prayer-card .time-ampm { font-size: 1.05rem; }
+  .prayer-cards { gap: 29px; padding: 16px 32px 36px; }
+  .prayer-card { min-width: 234px; padding: 29px 36px; }
+  .prayer-card .name { font-size: 1.75rem; }
+  .prayer-card .time { font-size: 2.85rem; }
+  .prayer-card .time-ampm { font-size: 1.35rem; }
   .mosque-name { font-size: 36px; }
   .hero-time { font-size: 3.5rem; }
 }
