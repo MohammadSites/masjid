@@ -1,0 +1,43 @@
+═══════════════════════════════════════════════════════════════════
+                    PLAN B – SHORTCUT + BUILT-IN KIOSK
+═══════════════════════════════════════════════════════════════════
+
+No Kiosk app needed. The HTML file has code inside it that:
+
+  • Goes FULLSCREEN automatically when you open it (or on first tap)
+  • Keeps the SCREEN ON while the page is open (Wake Lock)
+  • Works 100% offline from USB
+
+───────────────────────────────────────────────────────────────────
+1) SHORTCUT – OPEN THE SCREEN
+───────────────────────────────────────────────────────────────────
+
+  • OPEN_SCREEN.html     ← click this (opens the masjid screen)
+  • or index.html        ← same
+
+Use File Manager → USB → click OPEN_SCREEN.html or index.html.
+The screen opens, goes fullscreen, and stays on. No app to install.
+
+───────────────────────────────────────────────────────────────────
+2) “ALWAYS RUN” / ON BOOT (limitation)
+───────────────────────────────────────────────────────────────────
+
+An HTML file cannot make the device “open this file on boot”. Only
+the device (or an app) can decide what runs at startup.
+
+  • Option A: Open the file once. Some browsers reopen the last page
+    when you turn the TV on. Leave the browser on this page and try.
+
+  • Option B: For guaranteed “open on boot”, use one small app (e.g.
+    Fully Kiosk) and set start URL to this file on USB + Launch on
+    Boot. Then plug USB = runs, remove USB = stops. See START_ON_BOOT.txt.
+
+───────────────────────────────────────────────────────────────────
+SUMMARY
+───────────────────────────────────────────────────────────────────
+
+  • Open OPEN_SCREEN.html or index.html from USB → fullscreen +
+    screen stays on, no Kiosk app needed.
+  • “Launch on boot” cannot be done by the HTML alone.
+
+═══════════════════════════════════════════════════════════════════

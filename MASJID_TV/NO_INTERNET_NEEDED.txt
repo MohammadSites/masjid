@@ -1,0 +1,36 @@
+═══════════════════════════════════════════════════════════════════
+         FULLY KIOSK – NO INTERNET NEEDED TO RUN THE SCREEN
+═══════════════════════════════════════════════════════════════════
+
+Fully Kiosk Browser does NOT use the internet to show your masjid
+screen. It opens the HTML file from your USB (or from device storage).
+Everything runs 100% offline after setup.
+
+───────────────────────────────────────────────────────────────────
+When is internet used? (only once)
+───────────────────────────────────────────────────────────────────
+
+• To DOWNLOAD the Fully Kiosk app from Play Store (one time only).
+
+If you have no internet at the mosque/TV:
+  1. On a phone or computer that has internet, download the Fully
+     Kiosk APK (e.g. from apkpure.com or fully-kiosk.com).
+  2. Copy the APK file to your USB stick.
+  3. Plug the USB into your Android TV / Fire Stick and install
+     the APK from the USB (allow "Install from unknown sources"
+     if asked).
+  4. After that, no internet is ever needed. Set the start URL to
+     file:///mnt/usb_storage/MASJID_TV/index.html and enable
+     "Launch on Boot". The screen will open from USB every time
+     you turn on the device – fully offline.
+
+───────────────────────────────────────────────────────────────────
+Summary
+───────────────────────────────────────────────────────────────────
+
+• Masjid screen (index.html):  NO internet – runs from USB.
+• Fully Kiosk after install:  NO internet – opens file from USB.
+• Internet needed only once:  to download the Fully Kiosk app
+  (or use APK from another device if you have no internet there).
+
+═══════════════════════════════════════════════════════════════════

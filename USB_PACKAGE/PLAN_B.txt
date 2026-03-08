@@ -1,0 +1,47 @@
+═══════════════════════════════════════════════════════════════════
+                    PLAN B – SHORTCUT + BUILT-IN KIOSK
+═══════════════════════════════════════════════════════════════════
+
+No Kiosk app needed. The HTML file has code inside it that:
+
+  • Goes FULLSCREEN automatically when you open it (or on first tap)
+  • Keeps the SCREEN ON while the page is open (Wake Lock)
+  • Works 100% offline from USB
+
+───────────────────────────────────────────────────────────────────
+1) SHORTCUT – OPEN THE SCREEN
+───────────────────────────────────────────────────────────────────
+
+  • OPEN_SCREEN.html     ← click this (opens the masjid screen)
+  • or index.html        ← same
+
+Use File Manager → USB → click OPEN_SCREEN.html or index.html.
+The screen opens, goes fullscreen, and stays on. No app to install.
+
+───────────────────────────────────────────────────────────────────
+2) “ALWAYS RUN” / ON BOOT (limitation)
+───────────────────────────────────────────────────────────────────
+
+An HTML file cannot make the TV or box “open this file on boot”.
+Only the device (or an app) can decide what runs at startup.
+
+  • Option A: Open the file once from USB. On some devices, the
+    browser reopens the last page when you turn the TV on again.
+    Leave the browser on this page and try.
+
+  • Option B: If you need guaranteed “open on boot”, use a small
+    app (e.g. Fully Kiosk) once: set start URL to the file on USB
+    and “Launch on Boot”. Then plug USB = runs, remove USB = stops.
+    See START_ON_BOOT.txt if you want this.
+
+───────────────────────────────────────────────────────────────────
+SUMMARY
+───────────────────────────────────────────────────────────────────
+
+  • Open OPEN_SCREEN.html or index.html from USB → fullscreen +
+    screen stays on, no Kiosk app needed.
+  • “Launch on boot” cannot be done by the HTML alone; use Option A
+    (browser reopens last page) or Option B (one app with Launch
+    on Boot).
+
+═══════════════════════════════════════════════════════════════════

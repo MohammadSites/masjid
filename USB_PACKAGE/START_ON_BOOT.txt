@@ -1,0 +1,45 @@
+═══════════════════════════════════════════════════════════════════
+            OPEN ONCE – ALWAYS RUN WHEN TV TURNS ON
+═══════════════════════════════════════════════════════════════════
+
+To make the masjid screen open automatically every time you turn on
+the TV (set it once, then it always runs):
+
+───────────────────────────────────────────────────────────────────
+OPTION A: Android TV or Fire Stick (recommended)
+───────────────────────────────────────────────────────────────────
+
+1. On your Android TV (or Fire Stick with Play Store), install:
+   "Fully Kiosk Browser" from Play Store.
+
+2. Open Fully Kiosk Browser. When it asks for URL, enter your file:
+   file:///mnt/usb_storage/USB_PACKAGE/index.html
+   (If USB path is different, use File Manager to find the path.)
+
+3. Open Fully settings (menu or swipe). Enable:
+   • Launch on Boot  (start when device turns on)
+   • Keep Screen On
+   • Fullscreen Mode
+
+4. Restart the device once to test. After this, every time you turn
+   on the TV and the box boots, the masjid screen will open by itself.
+   You only set it once.
+
+───────────────────────────────────────────────────────────────────
+OPTION B: Samsung/LG Smart TV (built-in)
+───────────────────────────────────────────────────────────────────
+
+Built-in TV systems (Samsung Tizen, LG webOS) do NOT support
+"open this page on boot". You have to open the file manually each
+time, or use an external Android TV box / Fire Stick as in Option A.
+
+───────────────────────────────────────────────────────────────────
+FOLDER CONTENTS (keep together on USB)
+───────────────────────────────────────────────────────────────────
+
+• index.html   – main screen (required)
+• fonts/       – Tajawal font files (required – do not delete)
+• اقرأني.txt   – Arabic instructions
+• This file    – English instructions
+
+═══════════════════════════════════════════════════════════════════
