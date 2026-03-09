@@ -397,7 +397,7 @@ function tick(){
 
   const row = findTodayRow();
   if(!row){
-    if(heroNextEl) heroNextEl.textContent = "—";
+    if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
@@ -422,11 +422,11 @@ function tick(){
       const total = Math.max(0, Math.floor(diff/1000));
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
-      if(heroNextEl) heroNextEl.textContent = `${next.name} بعد ${pad2(h)}:${pad2(m)}`;
+      if(heroNextEl) { heroNextEl.textContent = `${next.name} بعد ${pad2(h)}:${pad2(m)}`; heroNextEl.classList.remove("iqamah-countdown"); }
     } else {
       if(heroBox) heroBox.classList.add("hidden");
       if(adhkarBox) adhkarBox.classList.add("visible");
-      if(heroNextEl) heroNextEl.textContent = "—";
+      if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
       const list = getAdhkarList();
       if (list.length === 0) {
         adhkarCyclesComplete = true;
@@ -452,7 +452,7 @@ function tick(){
     if(heroBox) heroBox.classList.add("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
     if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
-    if(heroNextEl) heroNextEl.textContent = "—";
+    if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
   } else {
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
@@ -462,13 +462,16 @@ function tick(){
       const total = Math.max(0, Math.floor(diff/1000));
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
-      if(heroNextEl) heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}`;
+      if(heroNextEl) { heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}`; heroNextEl.classList.remove("iqamah-countdown"); }
     } else {
       const diff = state.iqamahAt - now;
       const total = Math.max(0, Math.floor(diff/1000));
       const m = Math.floor(total/60);
       const s = total % 60;
-      if(heroNextEl) heroNextEl.textContent = `صلاة ${state.prayer.name} يبدأ بعد ${pad2(m)}:${pad2(s)}`;
+      if(heroNextEl) {
+        heroNextEl.textContent = `الوقت المتبقي لاقامة الصلاة : ${pad2(m)}:${pad2(s)}`;
+        heroNextEl.classList.add("iqamah-countdown");
+      }
     }
   }
 
