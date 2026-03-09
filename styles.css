@@ -84,20 +84,21 @@ body::before {
   letter-spacing: 0.02em;
   text-shadow: var(--text-shadow-strong);
 }
-/* Hero: central time box - compact so cards sit higher */
+/* Hero: central time box - compact so cards sit higher and stay visible with adhkar */
 .hero {
   flex: 0 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 24px 8px;
+  gap: 16px;
+  padding: 12px 20px 6px;
 }
 .hero-box {
   background: linear-gradient(145deg, rgba(88, 52, 120, 0.88) 0%, rgba(55, 35, 85, 0.9) 50%, rgba(45, 28, 70, 0.92) 100%);
   border-radius: var(--radius);
-  padding: 36px 48px;
+  padding: 28px 40px;
   text-align: center;
-  min-width: 340px;
+  min-width: 300px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.08);
   backdrop-filter: blur(10px);
 }
@@ -127,9 +128,10 @@ body::before {
   display: none;
   background: linear-gradient(145deg, rgba(70, 45, 110, 0.9) 0%, rgba(50, 30, 80, 0.92) 100%);
   border-radius: var(--radius);
-  padding: 48px 56px;
+  padding: 28px 36px;
   text-align: center;
-  min-width: 380px;
+  min-width: 260px;
+  max-width: min(420px, 38vw);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
   backdrop-filter: blur(10px);
 }
@@ -140,36 +142,36 @@ body::before {
   justify-content: center;
 }
 .adhkar-title {
-  font-size: clamp(1.4rem, 3.5vw, 3rem);
+  font-size: clamp(1.2rem, 3vw, 2.4rem);
   font-weight: 800;
   color: var(--muted);
   letter-spacing: 0.02em;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   text-shadow: var(--text-shadow);
 }
 .adhkar-quote {
-  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  font-size: clamp(1.35rem, 3.2vw, 2.6rem);
   font-weight: 700;
   color: var(--text);
-  line-height: 1.6;
-  max-width: 520px;
-  margin-bottom: 14px;
+  line-height: 1.5;
+  max-width: min(420px, 90%);
+  margin-bottom: 10px;
   text-shadow: var(--text-shadow-strong);
 }
 .adhkar-source {
-  font-size: clamp(1rem, 2.2vw, 2.2rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.7rem);
   font-weight: 600;
   color: var(--muted);
   text-shadow: var(--text-shadow);
 }
 
-/* Prayer cards row – larger for TV/APK */
+/* Prayer cards row – big but fit 6 in one line on TV */
 .prayer-cards {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(16px, 3vw, 36px);
-  padding: clamp(12px, 2vw, 28px) clamp(20px, 4vw, 48px) clamp(20px, 3vw, 40px);
+  gap: clamp(12px, 2vw, 24px);
+  padding: clamp(10px, 1.5vw, 20px) clamp(16px, 3vw, 32px) clamp(16px, 2vw, 28px);
   flex-wrap: wrap;
   flex: 1;
   min-height: 0;
@@ -177,8 +179,9 @@ body::before {
 .prayer-card {
   background: linear-gradient(160deg, rgba(40, 25, 60, 0.9) 0%, rgba(30, 18, 50, 0.92) 100%);
   border-radius: var(--radius-sm);
-  padding: clamp(20px, 3vw, 44px) clamp(26px, 4vw, 58px);
-  min-width: clamp(160px, 22vw, 380px);
+  padding: clamp(16px, 2.5vw, 32px) clamp(20px, 3vw, 42px);
+  min-width: clamp(140px, 14vw, 270px);
+  flex: 0 1 auto;
   text-align: center;
   backdrop-filter: blur(6px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -188,21 +191,21 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.25), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .prayer-card .name {
-  font-size: clamp(1.3rem, 2.5vw, 3rem);
+  font-size: clamp(1.15rem, 2.2vw, 2.5rem);
   font-weight: 700;
   color: var(--muted);
-  margin-bottom: clamp(8px, 1.2vw, 16px);
+  margin-bottom: clamp(6px, 1vw, 12px);
   text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
-  font-size: clamp(2rem, 4.5vw, 4.8rem);
+  font-size: clamp(1.75rem, 3.8vw, 4rem);
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
   text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
-  font-size: clamp(1rem, 2vw, 2.4rem);
+  font-size: clamp(0.9rem, 1.7vw, 2rem);
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
@@ -255,6 +258,7 @@ dialog {
 }
 .admin { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
 .admin h2 { margin: 0 0 8px 0; }
+.admin-note { font-size: 13px; color: var(--muted); margin: 0 0 12px 0; line-height: 1.4; }
 .admin label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); }
 .admin input, .admin select, .admin textarea {
   border-radius: 12px;
