@@ -111,13 +111,13 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
-  font-size: 1.35rem;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
   color: var(--muted);
   margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: 1.15rem;
+  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
   color: var(--muted);
   margin-top: 14px;
   text-shadow: var(--text-shadow);
@@ -133,6 +133,37 @@ body::before {
 }
 
 .hero-box.hidden { display: none; }
+/* Sunrise card next to hero box */
+.sunrise-card {
+  background: linear-gradient(160deg, rgba(40, 25, 60, 0.9) 0%, rgba(30, 18, 50, 0.92) 100%);
+  border-radius: var(--radius-sm);
+  padding: clamp(14px, 2vw, 24px) clamp(18px, 2.5vw, 32px);
+  min-width: clamp(100px, 10vw, 160px);
+  text-align: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.sunrise-card .name {
+  font-size: clamp(1rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: clamp(4px, 0.8vw, 8px);
+  text-shadow: var(--text-shadow);
+}
+.sunrise-card .time {
+  font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  text-shadow: var(--text-shadow-strong);
+}
+.sunrise-card .time-ampm {
+  font-size: clamp(0.8rem, 1.4vw, 1.4rem);
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+  text-shadow: var(--text-shadow);
+}
 .adhkar-box {
   display: none;
   background: linear-gradient(145deg, rgba(70, 45, 110, 0.9) 0%, rgba(50, 30, 80, 0.92) 100%);
@@ -174,22 +205,22 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 
-/* Prayer cards row – big but fit 6 in one line on TV */
+/* Prayer cards row – 5 cards in one line, bigger */
 .prayer-cards {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: clamp(12px, 2vw, 24px);
   padding: clamp(10px, 1.5vw, 20px) clamp(16px, 3vw, 32px) clamp(16px, 2vw, 28px);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex: 1;
   min-height: 0;
 }
 .prayer-card {
   background: linear-gradient(160deg, rgba(40, 25, 60, 0.9) 0%, rgba(30, 18, 50, 0.92) 100%);
   border-radius: var(--radius-sm);
-  padding: clamp(16px, 2.5vw, 32px) clamp(20px, 3vw, 42px);
-  min-width: clamp(140px, 14vw, 270px);
+  padding: clamp(18px, 2.8vw, 36px) clamp(22px, 3.2vw, 48px);
+  min-width: clamp(150px, 15vw, 290px);
   flex: 0 1 auto;
   text-align: center;
   backdrop-filter: blur(6px);
@@ -200,21 +231,21 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.25), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .prayer-card .name {
-  font-size: clamp(1.15rem, 2.2vw, 2.5rem);
+  font-size: clamp(1.25rem, 2.4vw, 2.7rem);
   font-weight: 700;
   color: var(--muted);
   margin-bottom: clamp(6px, 1vw, 12px);
   text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
-  font-size: clamp(1.75rem, 3.8vw, 4rem);
+  font-size: clamp(1.9rem, 4vw, 4.2rem);
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
   text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
-  font-size: clamp(0.9rem, 1.7vw, 2rem);
+  font-size: clamp(1rem, 1.9vw, 2.1rem);
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;

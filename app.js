@@ -208,7 +208,7 @@ function findTodayRow(){
     if (!r) return null;
     return {
       fajr: r.fajr,
-      sunrise: addHoursToHhmm(r.sunrise, 1),
+      sunrise: addHoursToHhmm(r.sunrise, -1),
       dhuhr: r.dhuhr,
       asr: r.asr,
       maghrib: r.maghrib,
@@ -286,7 +286,7 @@ function computeNextPrayer(todayRow){
   if (timetableFormat === "jerusalem") {
     const m = tomorrow.getMonth() + 1, d = tomorrow.getDate();
     const tr = timetableRows.find(r => Number(r.MonthNum) === m && Number(r.Day) === d);
-    if (tr) tomRow = { fajr: tr.fajr, sunrise: addHoursToHhmm(tr.sunrise, 1), dhuhr: tr.dhuhr, asr: tr.asr, maghrib: tr.maghrib, isha: tr.isha };
+    if (tr) tomRow = { fajr: tr.fajr, sunrise: addHoursToHhmm(tr.sunrise, -1), dhuhr: tr.dhuhr, asr: tr.asr, maghrib: tr.maghrib, isha: tr.isha };
   } else {
     tomRow = timetableRows.find(r => r.date === todayISO(tomorrow));
   }
@@ -298,14 +298,24 @@ function computeNextPrayer(todayRow){
 }
 
 function renderTimes(todayRow, nextKey){
+  const sunriseName = cfg.lang==="ar"?"الشروق":(cfg.lang==="he"?"זריחה":"Sunrise");
   const items = [
-    {k:"sunrise", n: cfg.lang==="ar"?"الشروق":(cfg.lang==="he"?"זריחה":"Sunrise"), v: todayRow.sunrise},
     {k:"fajr", n: cfg.lang==="ar"?"الفجر":(cfg.lang==="he"?"פג׳ר":"Fajr"), v: todayRow.fajr},
     {k:"dhuhr", n: cfg.lang==="ar"?"الظهر":(cfg.lang==="he"?"ד׳והר":"Dhuhr"), v: todayRow.dhuhr},
     {k:"asr", n: cfg.lang==="ar"?"العصر":(cfg.lang==="he"?"עסר":"Asr"), v: todayRow.asr},
     {k:"maghrib", n: cfg.lang==="ar"?"المغرب":(cfg.lang==="he"?"מגריב":"Maghrib"), v: todayRow.maghrib},
     {k:"isha", n: cfg.lang==="ar"?"العشاء":(cfg.lang==="he"?"עִשָא":"Isha"), v: todayRow.isha},
   ];
+  const sunriseCard = document.getElementById("sunriseCard");
+  if (sunriseCard && todayRow.sunrise) {
+    const sunNameEl = sunriseCard.querySelector(".name");
+    const sunTimeEl = document.getElementById("sunriseTime");
+    const sunAmpmEl = document.getElementById("sunriseAmpm");
+    const { time, ampm } = formatTime12h(todayRow.sunrise);
+    if (sunNameEl) sunNameEl.textContent = sunriseName;
+    if (sunTimeEl) sunTimeEl.textContent = time;
+    if (sunAmpmEl) sunAmpmEl.textContent = ampm;
+  }
   const container = el("prayerCards");
   if(!container) return;
   container.innerHTML = "";

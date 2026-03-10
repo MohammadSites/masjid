@@ -21,12 +21,15 @@
     .hero { display: flex; align-items: center; justify-content: center; flex: 1; padding: 24px; }
     .hero-box { background: rgba(88, 52, 120, 0.85); padding: 40px; border-radius: 20px; text-align: center; }
     .hero-time { color: #fff !important; font-size: 48px; font-weight: 900; }
-    .hero-date, .hero-next { color: rgba(255,255,255,0.85) !important; font-size: 18px; margin-top: 10px; }
-    .prayer-cards { display: flex; justify-content: center; gap: 18px; padding: 16px; flex-wrap: wrap; }
-    .prayer-card { background: rgba(45, 30, 65, 0.9); padding: 24px 32px; border-radius: 14px; text-align: center; min-width: 200px; }
-    .prayer-card .name { color: rgba(255,255,255,0.85) !important; font-size: 22px; margin-bottom: 8px; }
-    .prayer-card .time { color: #fff !important; font-size: 36px; font-weight: 900; }
-    .prayer-card .time-ampm { color: rgba(255,255,255,0.7) !important; font-size: 18px; }
+    .hero-date, .hero-next { color: rgba(255,255,255,0.85) !important; font-size: 22px; margin-top: 10px; }
+    .prayer-cards { display: flex; justify-content: center; gap: 18px; padding: 16px; flex-wrap: nowrap; }
+    .prayer-card { background: rgba(45, 30, 65, 0.9); padding: 28px 38px; border-radius: 14px; text-align: center; min-width: 220px; }
+    .prayer-card .name { color: rgba(255,255,255,0.85) !important; font-size: 24px; margin-bottom: 8px; }
+    .prayer-card .time { color: #fff !important; font-size: 40px; font-weight: 900; }
+    .prayer-card .time-ampm { color: rgba(255,255,255,0.7) !important; font-size: 20px; }
+    .sunrise-card { background: rgba(45, 30, 65, 0.9); padding: 16px 24px; border-radius: 14px; text-align: center; }
+    .sunrise-card .name { color: rgba(255,255,255,0.85); font-size: 18px; }
+    .sunrise-card .time { color: #fff; font-size: 26px; font-weight: 900; }
     .prayer-card.next { background: rgba(110, 70, 160, 0.95); }
     .admin-settings-btn { position: fixed; left: 14px; bottom: 14px; width: 48px; height: 48px; max-width: 100px; max-height: 100px; padding: 0; border: none; border-radius: 50%; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .admin-settings-icon { width: 28px; height: 28px; }
@@ -49,6 +52,11 @@
         <div class="hero-date" id="todayDate">—</div>
         <div class="hero-next" id="heroNext">—</div>
       </div>
+      <div class="sunrise-card" id="sunriseCard">
+        <div class="name">الشروق</div>
+        <div class="time" id="sunriseTime">--:--</div>
+        <div class="time-ampm" id="sunriseAmpm"></div>
+      </div>
       <div class="adhkar-box" id="adhkarBox">
         <div class="adhkar-title">الأذكار</div>
         <div class="adhkar-quote" id="adhkarQuoteText">—</div>
@@ -57,8 +65,7 @@
     </main>
 
     <section class="prayer-cards" id="prayerCards">
-      <!-- Fallback cards shown until JS loads -->
-      <div class="prayer-card"><div class="name">الشروق</div><div class="time">--:--</div><div class="time-ampm"></div></div>
+      <!-- Fallback: 5 prayer cards (sunrise is in top sunrise-card) -->
       <div class="prayer-card"><div class="name">الفجر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
       <div class="prayer-card"><div class="name">الظهر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
       <div class="prayer-card"><div class="name">العصر</div><div class="time">--:--</div><div class="time-ampm"></div></div>
