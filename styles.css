@@ -123,13 +123,13 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
-  font-size: clamp(3.75rem, 4.8vw, 4.5rem);
+  font-size: 34px;
   color: var(--muted);
   margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: clamp(3.5rem, 4.4vw, 4.25rem);
+  font-size: 34px;
   color: var(--muted);
   margin-top: 14px;
   text-shadow: var(--text-shadow);
@@ -188,7 +188,7 @@ body::before {
   margin-bottom: clamp(2px, 0.5vw, 6px);
 }
 .hijri-card .time {
-  font-size: clamp(0.9rem, 1.6vw, 1.35rem);
+  font-size: 24px;
   font-weight: 800;
   word-break: break-word;
   line-height: 1.2;
