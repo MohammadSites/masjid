@@ -177,16 +177,21 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 .sunrise-card.hidden { display: none !important; }
-/* Hijri card: same size as sunrise card (do not grow with content) */
+/* Hijri card: same size as sunrise card – smaller fonts so it fits */
 .hijri-card {
   min-width: clamp(100px, 10vw, 160px);
   max-width: clamp(100px, 10vw, 160px);
   flex: 0 0 auto;
 }
+.hijri-card .name {
+  font-size: clamp(0.8rem, 1.4vw, 1.2rem);
+  margin-bottom: clamp(2px, 0.5vw, 6px);
+}
 .hijri-card .time {
-  font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+  font-size: clamp(0.9rem, 1.6vw, 1.35rem);
+  font-weight: 800;
   word-break: break-word;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 .hijri-card .time-ampm { display: none; }
 .adhkar-box {
@@ -256,21 +261,21 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.28), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 .prayer-card .name {
-  font-size: clamp(1.25rem, 2.4vw, 2.7rem);
+  font-size: clamp(1.5rem, 2.9vw, 3.65rem);
   font-weight: 700;
   color: var(--muted);
   margin-bottom: clamp(6px, 1vw, 12px);
   text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
-  font-size: clamp(1.9rem, 4vw, 4.2rem);
+  font-size: clamp(2.4rem, 4.6vw, 5.15rem);
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
   text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
-  font-size: clamp(1rem, 1.9vw, 2.1rem);
+  font-size: clamp(1.4rem, 2.5vw, 3rem);
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
