@@ -1,0 +1,374 @@
+:root {
+  /* Teal/blue palette */
+  --accent: #0085A1;
+  --accent-dark: #06323E;
+  --accent-light: #0f5164;
+  --accent-bright: #00a0c0;
+  --panel: rgba(0, 133, 161, 0.78);
+  --panel-dark: rgba(6, 50, 62, 0.9);
+  --panel-next: rgba(15, 81, 100, 0.95);
+  --text: #fff;
+  --muted: rgba(255, 255, 255, 0.88);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --text-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.35);
+  --text-shadow-strong: 0 2px 4px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  font-family: "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: #0a0a12 url("media/background.png") center/cover no-repeat fixed;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(165deg, rgba(0,0,0,.35) 0%, rgba(6,50,62,.2) 40%, rgba(0,0,0,.25) 70%, rgba(0,0,0,.45) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Full-screen black "وقت الصلاة" (8 min after iqamah) */
+.prayer-time-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prayer-time-screen.hidden {
+  display: none;
+}
+.prayer-time-text {
+  font-size: clamp(3rem, 12vw, 6rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 4px 24px rgba(255,255,255,0.15);
+  letter-spacing: 0.02em;
+}
+
+.screen {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, rgba(6, 50, 62, 0.92) 0%, rgba(0, 133, 161, 0.25) 50%, rgba(6, 50, 62, 0.88) 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+.topbar-center { text-align: center; }
+
+.mosque-name {
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  text-shadow: var(--text-shadow-strong);
+}
+/* Hero: central time box - compact so cards sit higher and stay visible with adhkar */
+.hero {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 12px 20px 6px;
+}
+.hero-clock-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+/* Center the whole clock group (no offset) */
+.hero-box {
+  background: linear-gradient(145deg, rgba(0, 133, 161, 0.9) 0%, rgba(15, 81, 100, 0.92) 50%, rgba(6, 50, 62, 0.94) 100%);
+  border-radius: var(--radius);
+  padding: 28px 40px;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+.hero-time {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  color: var(--text);
+  text-shadow: var(--text-shadow-strong);
+}
+.hero-date {
+  font-size: 34px;
+  color: var(--muted);
+  margin-top: 12px;
+  text-shadow: var(--text-shadow);
+}
+.hero-next {
+  font-size: 34px;
+  color: var(--muted);
+  margin-top: 14px;
+  text-shadow: var(--text-shadow);
+}
+/* Iqamah countdown: same visibility as cards */
+.hero-next.iqamah-countdown {
+  font-size: clamp(1.5rem, 3.5vw, 3.2rem);
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 16px;
+  text-shadow: var(--text-shadow-strong);
+  letter-spacing: 0.02em;
+}
+
+.hero-box.hidden { display: none; }
+/* Sunrise card next to hero box */
+.sunrise-card {
+  background: linear-gradient(160deg, rgba(15, 81, 100, 0.92) 0%, rgba(6, 50, 62, 0.94) 100%);
+  border-radius: var(--radius-sm);
+  padding: clamp(14px, 2vw, 24px) clamp(18px, 2.5vw, 32px);
+  min-width: clamp(100px, 10vw, 160px);
+  text-align: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.sunrise-card .name {
+  font-size: clamp(1rem, 1.8vw, 1.6rem);
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: clamp(4px, 0.8vw, 8px);
+  text-shadow: var(--text-shadow);
+}
+.sunrise-card .time {
+  font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  text-shadow: var(--text-shadow-strong);
+}
+.sunrise-card .time-ampm {
+  font-size: clamp(0.8rem, 1.4vw, 1.4rem);
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+  text-shadow: var(--text-shadow);
+}
+.sunrise-card.hidden { display: none !important; }
+/* Hijri card: same size as sunrise card – smaller fonts so it fits */
+.hijri-card {
+  min-width: clamp(100px, 10vw, 160px);
+  max-width: clamp(100px, 10vw, 160px);
+  flex: 0 0 auto;
+}
+.hijri-card .name {
+  font-size: clamp(0.8rem, 1.4vw, 1.2rem);
+  margin-bottom: clamp(2px, 0.5vw, 6px);
+}
+.hijri-card .time {
+  font-size: 24px;
+  font-weight: 800;
+  word-break: break-word;
+  line-height: 1.2;
+}
+.hijri-card .time-ampm { display: none; }
+.adhkar-box {
+  display: none;
+  background: linear-gradient(145deg, rgba(0, 133, 161, 0.88) 0%, rgba(15, 81, 100, 0.9) 50%, rgba(6, 50, 62, 0.92) 100%);
+  border-radius: var(--radius);
+  padding: 24px 40px;
+  text-align: center;
+  min-width: 320px;
+  max-width: min(720px, 58vw);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+}
+.adhkar-box.visible {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.adhkar-title {
+  font-size: clamp(1.2rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+  text-shadow: var(--text-shadow);
+}
+.adhkar-quote {
+  font-size: clamp(1.35rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.45;
+  max-width: min(640px, 96%);
+  margin-bottom: 10px;
+  text-shadow: var(--text-shadow-strong);
+}
+.adhkar-source {
+  font-size: clamp(0.95rem, 1.8vw, 1.7rem);
+  font-weight: 600;
+  color: var(--muted);
+  text-shadow: var(--text-shadow);
+}
+
+/* Prayer cards row – 5 cards in one line, bigger */
+.prayer-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+  padding: clamp(10px, 1.5vw, 20px) clamp(16px, 3vw, 32px) clamp(16px, 2vw, 28px);
+  flex-wrap: nowrap;
+  flex: 1;
+  min-height: 0;
+}
+.prayer-card {
+  background: linear-gradient(160deg, rgba(15, 81, 100, 0.9) 0%, rgba(6, 50, 62, 0.92) 100%);
+  border-radius: var(--radius-sm);
+  padding: clamp(18px, 2.8vw, 36px) clamp(22px, 3.2vw, 48px);
+  min-width: clamp(150px, 15vw, 290px);
+  flex: 0 1 auto;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.prayer-card.next {
+  background: linear-gradient(160deg, rgba(0, 133, 161, 0.95) 0%, rgba(15, 81, 100, 0.95) 100%);
+  box-shadow: 0 0 0 2px rgba(255,255,255,.28), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+.prayer-card .name {
+  font-size: clamp(1.5rem, 2.9vw, 3.65rem);
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: clamp(6px, 1vw, 12px);
+  text-shadow: var(--text-shadow);
+}
+.prayer-card .time {
+  font-size: clamp(2.4rem, 4.6vw, 5.15rem);
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  text-shadow: var(--text-shadow-strong);
+}
+.prayer-card .time-ampm {
+  font-size: clamp(1.4rem, 2.5vw, 3rem);
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 2px;
+  text-shadow: var(--text-shadow);
+}
+
+/* Admin – settings icon (same place, max 100px); high z-index so click works on TV */
+.admin-settings-btn {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  width: 48px;
+  height: 48px;
+  max-width: 100px;
+  max-height: 100px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background 0.2s;
+  z-index: 99999;
+  pointer-events: auto;
+}
+.admin-settings-btn:hover,
+.admin-settings-btn:focus {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+.admin-settings-icon {
+  width: 28px;
+  height: 28px;
+  max-width: 64px;
+  max-height: 64px;
+}
+
+dialog {
+  border: none;
+  border-radius: 16px;
+  padding: 0;
+  width: min(820px, 95vw);
+  color: var(--text);
+  background: var(--panel-dark);
+  backdrop-filter: blur(12px);
+}
+.admin { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.admin h2 { margin: 0 0 8px 0; }
+.admin-note { font-size: 13px; color: var(--muted); margin: 0 0 12px 0; line-height: 1.4; }
+.admin label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); }
+.admin input, .admin select, .admin textarea {
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 10px 12px;
+  background: rgba(0,0,0,.3);
+  color: var(--text);
+  font-size: 14px;
+}
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.box { padding: 12px; border: 1px dashed rgba(255,255,255,.2); border-radius: 14px; }
+.box-title { font-weight: 800; margin-bottom: 8px; color: var(--text); }
+.actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+.actions button {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  background: rgba(255,255,255,.15);
+  color: var(--text);
+}
+#saveBtn { background: var(--accent); color: #fff; }
+
+/* TV / large screens: 30% larger cards */
+@media (min-width: 1200px) {
+  .prayer-cards { gap: 29px; padding: 16px 32px 36px; }
+  .prayer-card { min-width: 234px; padding: 29px 36px; }
+  .prayer-card .name { font-size: 1.75rem; }
+  .prayer-card .time { font-size: 2.85rem; }
+  .prayer-card .time-ampm { font-size: 1.35rem; }
+  .mosque-name { font-size: 36px; }
+  .hero-time { font-size: 3.5rem; }
+}
+
+@media (max-width: 700px) {
+  .mosque-name { font-size: 24px; }
+  .hero-box { padding: 28px 32px; min-width: auto; }
+  .hero-time { font-size: 2rem; }
+  .prayer-cards { gap: 10px; }
+  .prayer-card { min-width: 100px; padding: 12px 14px; }
+  .prayer-card .time { font-size: 1.2rem; }
+}
