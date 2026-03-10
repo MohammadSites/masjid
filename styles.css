@@ -93,6 +93,12 @@ body::before {
   gap: 16px;
   padding: 12px 20px 6px;
 }
+.hero-clock-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
 .hero-box {
   background: linear-gradient(145deg, rgba(88, 52, 120, 0.88) 0%, rgba(55, 35, 85, 0.9) 50%, rgba(45, 28, 70, 0.92) 100%);
   border-radius: var(--radius);
@@ -164,14 +170,17 @@ body::before {
   margin-top: 2px;
   text-shadow: var(--text-shadow);
 }
+.sunrise-card.hidden {
+  display: none !important;
+}
 .adhkar-box {
   display: none;
   background: linear-gradient(145deg, rgba(70, 45, 110, 0.9) 0%, rgba(50, 30, 80, 0.92) 100%);
   border-radius: var(--radius);
-  padding: 28px 36px;
+  padding: 24px 40px;
   text-align: center;
-  min-width: 260px;
-  max-width: min(420px, 38vw);
+  min-width: 320px;
+  max-width: min(720px, 58vw);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
   backdrop-filter: blur(10px);
 }
@@ -193,8 +202,8 @@ body::before {
   font-size: clamp(1.35rem, 3.2vw, 2.6rem);
   font-weight: 700;
   color: var(--text);
-  line-height: 1.5;
-  max-width: min(420px, 90%);
+  line-height: 1.45;
+  max-width: min(640px, 96%);
   margin-bottom: 10px;
   text-shadow: var(--text-shadow-strong);
 }

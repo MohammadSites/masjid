@@ -208,7 +208,7 @@ function findTodayRow(){
     if (!r) return null;
     return {
       fajr: r.fajr,
-      sunrise: addHoursToHhmm(r.sunrise, -1),
+      sunrise: r.sunrise,
       dhuhr: r.dhuhr,
       asr: r.asr,
       maghrib: r.maghrib,
@@ -286,7 +286,7 @@ function computeNextPrayer(todayRow){
   if (timetableFormat === "jerusalem") {
     const m = tomorrow.getMonth() + 1, d = tomorrow.getDate();
     const tr = timetableRows.find(r => Number(r.MonthNum) === m && Number(r.Day) === d);
-    if (tr) tomRow = { fajr: tr.fajr, sunrise: addHoursToHhmm(tr.sunrise, -1), dhuhr: tr.dhuhr, asr: tr.asr, maghrib: tr.maghrib, isha: tr.isha };
+    if (tr) tomRow = { fajr: tr.fajr, sunrise: tr.sunrise, dhuhr: tr.dhuhr, asr: tr.asr, maghrib: tr.maghrib, isha: tr.isha };
   } else {
     tomRow = timetableRows.find(r => r.date === todayISO(tomorrow));
   }
@@ -401,6 +401,7 @@ function tick(){
   const heroNextEl = el("heroNext");
   const heroBox = el("heroBox");
   const adhkarBox = el("adhkarBox");
+  const sunriseCard = document.getElementById("sunriseCard");
   const prayerTimeScreen = el("prayerTimeScreen");
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
@@ -410,6 +411,7 @@ function tick(){
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     return;
   }
@@ -427,6 +429,7 @@ function tick(){
     if (adhkarCyclesComplete) {
       if(heroBox) heroBox.classList.remove("hidden");
       if(adhkarBox) adhkarBox.classList.remove("visible");
+      if(sunriseCard) sunriseCard.classList.remove("hidden");
       const next = computeNextPrayer(row);
       const diff = next.dt - now;
       const total = Math.max(0, Math.floor(diff/1000));
@@ -436,6 +439,7 @@ function tick(){
     } else {
       if(heroBox) heroBox.classList.add("hidden");
       if(adhkarBox) adhkarBox.classList.add("visible");
+      if(sunriseCard) sunriseCard.classList.add("hidden");
       if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
       const list = getAdhkarList();
       if (list.length === 0) {
@@ -461,11 +465,13 @@ function tick(){
   } else if (state.mode === "wait_adhkar") {
     if(heroBox) heroBox.classList.add("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
   } else {
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (state.mode === "next") {
       const diff = state.nextAt - now;
