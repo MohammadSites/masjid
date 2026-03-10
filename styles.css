@@ -98,7 +98,9 @@ body::before {
   align-items: center;
   gap: 16px;
   flex-shrink: 0;
-  /* Shift group right so the clock box (larger) sits in the screen center (RTL: margin-inline-end pushes right) */
+}
+/* Only shift clock group right when clock is shown; when Adhkar is visible, keep Adhkar box centered */
+.hero:not(.adhkar-visible) .hero-clock-group {
   margin-inline-end: clamp(60px, 8vw, 120px);
 }
 .hero-box {

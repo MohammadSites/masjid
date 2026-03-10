@@ -402,6 +402,7 @@ function tick(){
   const heroBox = el("heroBox");
   const adhkarBox = el("adhkarBox");
   const sunriseCard = document.getElementById("sunriseCard");
+  const heroEl = document.querySelector(".hero");
   const prayerTimeScreen = el("prayerTimeScreen");
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
@@ -411,6 +412,7 @@ function tick(){
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     return;
@@ -429,6 +431,7 @@ function tick(){
     if (adhkarCyclesComplete) {
       if(heroBox) heroBox.classList.remove("hidden");
       if(adhkarBox) adhkarBox.classList.remove("visible");
+      if(heroEl) heroEl.classList.remove("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.remove("hidden");
       const next = computeNextPrayer(row);
       const diff = next.dt - now;
@@ -439,6 +442,7 @@ function tick(){
     } else {
       if(heroBox) heroBox.classList.add("hidden");
       if(adhkarBox) adhkarBox.classList.add("visible");
+      if(heroEl) heroEl.classList.add("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.add("hidden");
       if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
       const list = getAdhkarList();
@@ -465,12 +469,14 @@ function tick(){
   } else if (state.mode === "wait_adhkar") {
     if(heroBox) heroBox.classList.add("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
   } else {
     if(heroBox) heroBox.classList.remove("hidden");
     if(adhkarBox) adhkarBox.classList.remove("visible");
+    if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (state.mode === "next") {
