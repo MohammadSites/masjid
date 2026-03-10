@@ -126,13 +126,13 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
-  font-size: clamp(2.125rem, 3.2vw, 2.8rem);
+  font-size: clamp(3.375rem, 4.2vw, 4rem);
   color: var(--muted);
   margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-size: clamp(3.25rem, 4vw, 3.75rem);
   color: var(--muted);
   margin-top: 14px;
   text-shadow: var(--text-shadow);
@@ -179,9 +179,8 @@ body::before {
   margin-top: 2px;
   text-shadow: var(--text-shadow);
 }
-.sunrise-card.hidden {
-  display: none !important;
-}
+.sunrise-card.hidden { display: none !important; }
+.hijri-card .time-ampm { display: none; }
 .adhkar-box {
   display: none;
   background: linear-gradient(145deg, rgba(0, 133, 161, 0.88) 0%, rgba(15, 81, 100, 0.9) 50%, rgba(6, 50, 62, 0.92) 100%);

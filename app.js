@@ -2,6 +2,7 @@ const DEFAULTS_URL = "data/config.json";
 const DEFAULT_TIMETABLE_URL = "data/timetable.csv";
 const HADITH_URL = "data/hadith.json";
 const QURAN_URL = "data/quran.json";
+const HIJRI_URL = "data/hijri.json";
 
 const LS_CONFIG = "msq_cfg_v1";
 const LS_TIMETABLE = "msq_timetable_csv_v1";
@@ -52,6 +53,7 @@ let timetableRows = [];
 let timetableFormat = "iso"; // "iso" = date column YYYY-MM-DD, "jerusalem" = MonthNum + Day
 let hadithList = [];
 let quranList = [];
+let hijriCalendar = {};
 let mediaIndex = 0;
 let adhkarQuoteIndex = 0;
 let lastAdhkarAdvanceTime = null;
@@ -402,10 +404,14 @@ function tick(){
   const heroBox = el("heroBox");
   const adhkarBox = el("adhkarBox");
   const sunriseCard = document.getElementById("sunriseCard");
+  const hijriCard = document.getElementById("hijriCard");
+  const hijriDateEl = document.getElementById("hijriDate");
   const heroEl = document.querySelector(".hero");
   const prayerTimeScreen = el("prayerTimeScreen");
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
+  const todayKey = todayISO(now);
+  if(hijriDateEl) hijriDateEl.textContent = hijriCalendar[todayKey] || "—";
 
   const row = findTodayRow();
   if(!row){
@@ -414,6 +420,7 @@ function tick(){
     if(adhkarBox) adhkarBox.classList.remove("visible");
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
+    if(hijriCard) hijriCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     return;
   }
@@ -433,6 +440,7 @@ function tick(){
       if(adhkarBox) adhkarBox.classList.remove("visible");
       if(heroEl) heroEl.classList.remove("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.remove("hidden");
+      if(hijriCard) hijriCard.classList.remove("hidden");
       const next = computeNextPrayer(row);
       const diff = next.dt - now;
       const total = Math.max(0, Math.floor(diff/1000));
@@ -445,6 +453,7 @@ function tick(){
       if(adhkarBox) adhkarBox.classList.add("visible");
       if(heroEl) heroEl.classList.add("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.add("hidden");
+      if(hijriCard) hijriCard.classList.add("hidden");
       if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
       const list = getAdhkarList();
       if (list.length === 0) {
@@ -472,6 +481,7 @@ function tick(){
     if(adhkarBox) adhkarBox.classList.remove("visible");
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
+    if(hijriCard) hijriCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
   } else {
@@ -479,6 +489,7 @@ function tick(){
     if(adhkarBox) adhkarBox.classList.remove("visible");
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
+    if(hijriCard) hijriCard.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (state.mode === "next") {
       const diff = state.nextAt - now;
@@ -638,7 +649,8 @@ async function bootstrap(){
 
     try{ hadithList = await loadJSON(HADITH_URL); }catch{ hadithList = FALLBACK_HADITH; }
     try{ quranList = await loadJSON(QURAN_URL); }catch{ quranList=[]; }
-    
+    try{ hijriCalendar = await loadJSON(HIJRI_URL); }catch{ hijriCalendar = {}; }
+
     // Use fallback hadith if empty
     if (!hadithList || hadithList.length === 0) {
       hadithList = FALLBACK_HADITH;
