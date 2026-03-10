@@ -104,10 +104,7 @@ body::before {
   gap: 16px;
   flex-shrink: 0;
 }
-/* Only shift clock group right when clock is shown; when Adhkar is visible, keep Adhkar box centered */
-.hero:not(.adhkar-visible) .hero-clock-group {
-  margin-inline-end: clamp(60px, 8vw, 120px);
-}
+/* Center the whole clock group (no offset) */
 .hero-box {
   background: linear-gradient(145deg, rgba(0, 133, 161, 0.9) 0%, rgba(15, 81, 100, 0.92) 50%, rgba(6, 50, 62, 0.94) 100%);
   border-radius: var(--radius);
@@ -126,13 +123,13 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
-  font-size: clamp(3.375rem, 4.2vw, 4rem);
+  font-size: clamp(3.75rem, 4.8vw, 4.5rem);
   color: var(--muted);
   margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: clamp(3.25rem, 4vw, 3.75rem);
+  font-size: clamp(3.5rem, 4.4vw, 4.25rem);
   color: var(--muted);
   margin-top: 14px;
   text-shadow: var(--text-shadow);
@@ -180,6 +177,17 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 .sunrise-card.hidden { display: none !important; }
+/* Hijri card: same size as sunrise card (do not grow with content) */
+.hijri-card {
+  min-width: clamp(100px, 10vw, 160px);
+  max-width: clamp(100px, 10vw, 160px);
+  flex: 0 0 auto;
+}
+.hijri-card .time {
+  font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+  word-break: break-word;
+  line-height: 1.25;
+}
 .hijri-card .time-ampm { display: none; }
 .adhkar-box {
   display: none;

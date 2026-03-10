@@ -411,7 +411,10 @@ function tick(){
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
   const todayKey = todayISO(now);
-  if(hijriDateEl) hijriDateEl.textContent = hijriCalendar[todayKey] || "—";
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayKey = todayISO(yesterday);
+  if(hijriDateEl) hijriDateEl.textContent = hijriCalendar[yesterdayKey] || hijriCalendar[todayKey] || "—";
 
   const row = findTodayRow();
   if(!row){
