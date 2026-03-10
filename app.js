@@ -438,7 +438,8 @@ function tick(){
       const total = Math.max(0, Math.floor(diff/1000));
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
-      if(heroNextEl) { heroNextEl.textContent = `${next.name} بعد ${pad2(h)}:${pad2(m)}`; heroNextEl.classList.remove("iqamah-countdown"); }
+      const s = total % 60;
+      if(heroNextEl) { heroNextEl.textContent = `${next.name} بعد ${pad2(h)}:${pad2(m)}:${pad2(s)}`; heroNextEl.classList.remove("iqamah-countdown"); }
     } else {
       if(heroBox) heroBox.classList.add("hidden");
       if(adhkarBox) adhkarBox.classList.add("visible");
@@ -484,7 +485,8 @@ function tick(){
       const total = Math.max(0, Math.floor(diff/1000));
       const h = Math.floor(total/3600);
       const m = Math.floor((total%3600)/60);
-      if(heroNextEl) { heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}`; heroNextEl.classList.remove("iqamah-countdown"); }
+      const s = total % 60;
+      if(heroNextEl) { heroNextEl.textContent = `${state.nextPrayer.name} بعد ${pad2(h)}:${pad2(m)}:${pad2(s)}`; heroNextEl.classList.remove("iqamah-countdown"); }
     } else {
       const diff = state.iqamahAt - now;
       const total = Math.max(0, Math.floor(diff/1000));

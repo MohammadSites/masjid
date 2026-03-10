@@ -121,13 +121,13 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .hero-date {
-  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  font-size: clamp(2.125rem, 3.2vw, 2.8rem);
   color: var(--muted);
   margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
+  font-size: clamp(2rem, 3vw, 2.5rem);
   color: var(--muted);
   margin-top: 14px;
   text-shadow: var(--text-shadow);
