@@ -156,8 +156,8 @@ body::before {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 .sunrise-card .name {
-  color: #fff !important;
-  font-size: 24px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 24px !important;
   font-weight: 800;
   margin-bottom: clamp(4px, 0.8vw, 8px);
   text-shadow: var(--text-shadow);
@@ -261,7 +261,7 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.28), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 .prayer-card .name {
-  font-size: clamp(1.5rem, 2.9vw, 3.65rem);
+  font-size: clamp(1.9rem, 3.2vw, 4rem);
   font-weight: 700;
   color: var(--muted);
   margin-bottom: clamp(6px, 1vw, 12px);
