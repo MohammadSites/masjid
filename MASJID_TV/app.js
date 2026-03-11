@@ -222,7 +222,8 @@ function findTodayRow(){
 }
 
 const IQAMAH_OFFSET_MINUTES = { fajr: 25, dhuhr: 15, asr: 15, maghrib: 10, isha: 10 };
-const ADHKAR_DURATION_MINUTES = 8;
+/** Black "وقت الصلاة" screen duration (minutes) after iqamah, per prayer */
+const ADHKAR_DURATION_MINUTES = { fajr: 11, dhuhr: 10, asr: 10, maghrib: 10, isha: 12 };
 const PRAYER_KEYS = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 function prayerName(key){
   const names = { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" };
@@ -252,7 +253,8 @@ function getHeroState(todayRow, now){
   for (let i = 0; i < list.length; i++) {
     const p = list[i];
     const iqamahTime = new Date(p.adhanTime.getTime() + p.offsetMin * 60 * 1000);
-    const adhkarStartTime = new Date(iqamahTime.getTime() + ADHKAR_DURATION_MINUTES * 60 * 1000);
+    const waitMin = typeof ADHKAR_DURATION_MINUTES === "object" ? ADHKAR_DURATION_MINUTES[p.key] : ADHKAR_DURATION_MINUTES;
+    const adhkarStartTime = new Date(iqamahTime.getTime() + waitMin * 60 * 1000);
     const nextAdhanTime = i < list.length - 1 ? list[i + 1].adhanTime : getNextDayFajr(now);
     if (now < p.adhanTime)
       return { mode: "next", nextPrayer: p, nextAt: p.adhanTime };
