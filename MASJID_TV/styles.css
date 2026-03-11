@@ -163,7 +163,7 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 .sunrise-card .time {
-  font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+  font-size: 28px !important;
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
@@ -365,6 +365,7 @@ dialog {
 }
 
 @media (max-width: 700px) {
+  html, body { overflow: auto; position: relative; height: auto; min-height: 100%; }
   .mosque-name { font-size: 24px; }
   .hero-box { padding: 28px 32px; min-width: auto; }
   .hero-time { font-size: 2rem; }
