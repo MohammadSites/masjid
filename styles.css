@@ -122,16 +122,15 @@ body::before {
   color: var(--text);
   text-shadow: var(--text-shadow-strong);
 }
+.hero-date, .hero-next {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 33px;
+  margin-top: 10px;
+}
 .hero-date {
-  font-size: 34px;
-  color: var(--muted);
-  margin-top: 12px;
   text-shadow: var(--text-shadow);
 }
 .hero-next {
-  font-size: 34px;
-  color: var(--muted);
-  margin-top: 14px;
   text-shadow: var(--text-shadow);
 }
 /* Iqamah countdown: same visibility as cards */
@@ -188,7 +187,7 @@ body::before {
   margin-bottom: clamp(2px, 0.5vw, 6px);
 }
 .hijri-card .time {
-  font-size: 24px;
+  font-size: 24px !important;
   font-weight: 800;
   word-break: break-word;
   line-height: 1.2;
