@@ -261,14 +261,14 @@ body::before {
   box-shadow: 0 0 0 2px rgba(255,255,255,.28), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 .prayer-card .name {
-  font-size: 32px;
+  font-size: 38px !important;
   font-weight: 700;
   color: var(--muted);
   margin-bottom: clamp(6px, 1vw, 12px);
   text-shadow: var(--text-shadow);
 }
 .prayer-card .time {
-  font-size: 44px;
+  font-size: 50px !important;
   font-weight: 900;
   color: var(--text);
   letter-spacing: 0.5px;
