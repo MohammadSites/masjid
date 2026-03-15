@@ -224,6 +224,8 @@ function findTodayRow(){
 const IQAMAH_OFFSET_MINUTES = { fajr: 25, dhuhr: 15, asr: 15, maghrib: 10, isha: 10 };
 /** Black "وقت الصلاة" screen duration (minutes) after iqamah, per prayer */
 const ADHKAR_DURATION_MINUTES = { fajr: 11, dhuhr: 10, asr: 10, maghrib: 10, isha: 12 };
+/** Hide Eid notice after this date (19 March 2026 20:00) */
+const EID_NOTICE_HIDE_AT = new Date(2026, 2, 19, 20, 0, 0);
 const PRAYER_KEYS = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 function prayerName(key){
   const names = { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" };
@@ -410,6 +412,11 @@ function tick(){
   const hijriDateEl = document.getElementById("hijriDate");
   const heroEl = document.querySelector(".hero");
   const prayerTimeScreen = el("prayerTimeScreen");
+  const eidNotice = el("eidNotice");
+  if (eidNotice) {
+    if (now < EID_NOTICE_HIDE_AT) eidNotice.classList.remove("hidden");
+    else eidNotice.classList.add("hidden");
+  }
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
   const todayKey = todayISO(now);
