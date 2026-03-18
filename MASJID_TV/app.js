@@ -371,23 +371,29 @@ function showQuote(){
 
 function setMedia(item){
   const frame = el("mediaFrame");
-  frame.innerHTML = "";
-  if(!item) return;
+  if(!frame) return;
+  if(!item) { frame.innerHTML = ""; return; }
 
-  const isVideo = item.toLowerCase().match(/\.(mp4|webm|ogg)$/);
-  if(isVideo){
-    const v = document.createElement("video");
-    v.src = item;
-    v.autoplay = true;
-    v.muted = true;
-    v.loop = true;
-    v.playsInline = true;
-    frame.appendChild(v);
-  }else{
-    const img = document.createElement("img");
-    img.src = item;
-    frame.appendChild(img);
-  }
+  frame.style.transition = "opacity 0.4s ease";
+  frame.style.opacity = "0";
+  setTimeout(function(){
+    frame.innerHTML = "";
+    const isVideo = item.toLowerCase().match(/\.(mp4|webm|ogg)$/);
+    if(isVideo){
+      const v = document.createElement("video");
+      v.src = item;
+      v.autoplay = true;
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      frame.appendChild(v);
+    }else{
+      const img = document.createElement("img");
+      img.src = item;
+      frame.appendChild(img);
+    }
+    frame.style.opacity = "1";
+  }, 400);
 }
 
 function startSlideshow(){
@@ -400,7 +406,7 @@ function startSlideshow(){
   setInterval(()=>{
     mediaIndex = (mediaIndex + 1) % list.length;
     setMedia(list[mediaIndex]);
-  }, Math.max(3, cfg.slideSeconds || 12) * 1000);
+  }, Math.max(3, cfg.slideSeconds || 20) * 1000);
 }
 
 function tick(){
@@ -533,7 +539,7 @@ function openAdmin(){
   const d = el("adminDialog");
   el("adminMosqueName").value = cfg.mosqueName || "";
   el("adminLang").value = cfg.lang || "ar";
-  el("adminSlideSec").value = cfg.slideSeconds || 12;
+  el("adminSlideSec").value = cfg.slideSeconds || 20;
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
   const bootRow = document.getElementById("adminStartOnBootRow");
   const bootCb = el("adminStartOnBoot");
@@ -563,7 +569,7 @@ function wireAdmin(){
   el("saveBtn").addEventListener("click", ()=>{
     cfg.mosqueName = el("adminMosqueName").value.trim() || cfg.mosqueName;
     cfg.lang = el("adminLang").value;
-    cfg.slideSeconds = Number(el("adminSlideSec").value) || 12;
+    cfg.slideSeconds = Number(el("adminSlideSec").value) || 20;
     cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
     setStoredConfig(cfg);
     if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
@@ -634,7 +640,7 @@ async function bootstrap(){
         cfg = await loadJSON(DEFAULTS_URL);
       } catch(e) {
         console.log("Config load error:", e);
-        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 12, tickerMessages: [] };
+        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 20, tickerMessages: [] };
       }
       setStoredConfig(cfg);
     }
