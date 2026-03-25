@@ -420,6 +420,7 @@ function tick(){
   const hijriCard = document.getElementById("hijriCard");
   const hijriDateEl = document.getElementById("hijriDate");
   const heroEl = document.querySelector(".hero");
+  const prayerCardsEl = el("prayerCards");
   const prayerTimeScreen = el("prayerTimeScreen");
   const eidNotice = el("eidNotice");
   if (eidNotice) {
@@ -442,6 +443,7 @@ function tick(){
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(hijriCard) hijriCard.classList.remove("hidden");
+    if(prayerCardsEl) prayerCardsEl.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     return;
   }
@@ -462,6 +464,7 @@ function tick(){
       if(heroEl) heroEl.classList.remove("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.remove("hidden");
       if(hijriCard) hijriCard.classList.remove("hidden");
+      if(prayerCardsEl) prayerCardsEl.classList.remove("hidden");
       const next = computeNextPrayer(row);
       const diff = next.dt - now;
       const total = Math.max(0, Math.floor(diff/1000));
@@ -475,6 +478,7 @@ function tick(){
       if(heroEl) heroEl.classList.add("adhkar-visible");
       if(sunriseCard) sunriseCard.classList.add("hidden");
       if(hijriCard) hijriCard.classList.add("hidden");
+      if(prayerCardsEl) prayerCardsEl.classList.add("hidden");
       if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
       const list = getAdhkarList();
       if (list.length === 0) {
@@ -503,6 +507,7 @@ function tick(){
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(hijriCard) hijriCard.classList.remove("hidden");
+    if(prayerCardsEl) prayerCardsEl.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.remove("hidden");
     if(heroNextEl) { heroNextEl.textContent = "—"; heroNextEl.classList.remove("iqamah-countdown"); }
   } else {
@@ -511,6 +516,7 @@ function tick(){
     if(heroEl) heroEl.classList.remove("adhkar-visible");
     if(sunriseCard) sunriseCard.classList.remove("hidden");
     if(hijriCard) hijriCard.classList.remove("hidden");
+    if(prayerCardsEl) prayerCardsEl.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
     if (state.mode === "next") {
       const diff = state.nextAt - now;

@@ -171,7 +171,7 @@ body::before {
 }
 .sunrise-card .name {
   color: rgba(255, 255, 255, 0.85);
-  font-size: 24px !important;
+  font-size: 26px !important;
   font-weight: 800;
   margin-bottom: clamp(4px, 0.8vw, 8px);
   text-shadow: var(--text-shadow);
@@ -202,7 +202,7 @@ body::before {
   margin-bottom: clamp(2px, 0.5vw, 6px);
 }
 .hijri-card .time {
-  font-size: 26px !important;
+  font-size: 28px !important;
   font-weight: 800;
   word-break: unset;
   line-height: 1.3;
@@ -249,6 +249,51 @@ body::before {
   text-shadow: var(--text-shadow);
 }
 
+/* During adhkar slides: bottom prayer row hidden (toggled from app.js) */
+.prayer-cards.hidden {
+  display: none !important;
+}
+
+/* Adhkar fills main area: ~2× box + text while slides run */
+.hero.adhkar-visible {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px 12px;
+  gap: 0;
+}
+.hero.adhkar-visible .hero-clock-group {
+  display: none;
+}
+.hero.adhkar-visible .adhkar-box.visible {
+  flex: 1 1 auto;
+  width: min(96vw, 1600px);
+  max-width: min(96vw, 1600px);
+  min-height: min(82vh, 900px);
+  padding: clamp(40px, 6vh, 88px) clamp(36px, 5vw, 100px);
+  justify-content: center;
+}
+.hero.adhkar-visible .adhkar-title {
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  margin-bottom: clamp(16px, 2vh, 32px);
+}
+.hero.adhkar-visible .adhkar-quote {
+  font-size: clamp(2.7rem, 6.4vw, 5.2rem);
+  line-height: 1.42;
+  max-width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(12px, 1.5vh, 24px);
+}
+.hero.adhkar-visible .adhkar-source {
+  font-size: clamp(1.9rem, 3.6vw, 3.4rem);
+}
+
 /* Prayer cards row – 5 cards in one line, bigger */
 .prayer-cards {
   display: flex;
@@ -289,7 +334,7 @@ body::before {
   text-shadow: var(--text-shadow-strong);
 }
 .prayer-card .time-ampm {
-  font-size: clamp(1.4rem, 2.5vw, 3rem);
+  font-size: clamp(1.6rem, 2.5vw, 3rem);
   font-weight: 600;
   color: var(--muted);
   margin-top: 2px;
