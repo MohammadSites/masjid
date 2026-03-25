@@ -12,7 +12,7 @@ const FALLBACK_TIMETABLE = [
   {MonthNum:"3",Day:"1",fajr:"04:44",sunrise:"06:03",dhuhr:"11:51",asr:"15:08",maghrib:"17:43",isha:"18:58"},
   {MonthNum:"3",Day:"2",fajr:"04:43",sunrise:"06:02",dhuhr:"11:51",asr:"15:08",maghrib:"17:44",isha:"18:58"},
   {MonthNum:"3",Day:"3",fajr:"04:42",sunrise:"06:01",dhuhr:"11:51",asr:"15:09",maghrib:"17:44",isha:"18:59"},
-  {MonthNum:"3",Day:"4",fajr:"04:41",sunrise:"06:00",dhuhr:"11:50",asr:"15:09",maghrib:"17:45",isha:"20:00"},
+  {MonthNum:"3",Day:"4",fajr:"04:41",sunrise:"06:00",dhuhr:"11:50",asr:"15:09",maghrib:"17:45",isha:"19:00"},
   {MonthNum:"3",Day:"5",fajr:"04:40",sunrise:"05:58",dhuhr:"11:50",asr:"15:10",maghrib:"17:46",isha:"19:01"},
   {MonthNum:"3",Day:"6",fajr:"04:38",sunrise:"05:57",dhuhr:"11:50",asr:"15:10",maghrib:"17:47",isha:"19:01"},
   {MonthNum:"3",Day:"7",fajr:"04:37",sunrise:"05:56",dhuhr:"11:50",asr:"15:10",maghrib:"17:47",isha:"19:02"},
