@@ -351,8 +351,8 @@ function getAdhkarList(){
   if (mode === "hadith") return hadithList.map(x => ({ text: x.text, source: x.source }));
   if (mode === "quran") return quranList.map(x => ({ text: x.text, source: x.source }));
   return [
-    ...hadithList.map(x => ({ text: x.text, source: x.source })),
-    ...quranList.map(x => ({ text: x.text, source: x.source }))
+    ...quranList.map(x => ({ text: x.text, source: x.source })),
+    ...hadithList.map(x => ({ text: x.text, source: x.source }))
   ];
 }
 
