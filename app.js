@@ -62,7 +62,8 @@ let adhkarQuoteIndex = 0;
 let lastAdhkarAdvanceTime = null;
 let adhkarCyclesComplete = false;
 
-const ADHKAR_SLIDE_SECONDS = 6;
+/** مدة عرض كل شريحة أذكار (ثوانٍ) */
+const ADHKAR_SLIDE_SECONDS = 11;
 
 const el = (id) => document.getElementById(id);
 
@@ -445,6 +446,8 @@ function tick(){
     if(hijriCard) hijriCard.classList.remove("hidden");
     if(prayerCardsEl) prayerCardsEl.classList.remove("hidden");
     if(prayerTimeScreen) prayerTimeScreen.classList.add("hidden");
+    const mosqueNameElNoRow = el("mosqueName");
+    if (mosqueNameElNoRow) mosqueNameElNoRow.classList.remove("hidden");
     return;
   }
 
@@ -535,6 +538,15 @@ function tick(){
         heroNextEl.classList.add("iqamah-countdown");
       }
     }
+  }
+
+  const mosqueNameEl = el("mosqueName");
+  if (mosqueNameEl) {
+    const hideForAdhkar =
+      state.mode === "adhkar" &&
+      !adhkarCyclesComplete &&
+      getAdhkarList().length > 0;
+    mosqueNameEl.classList.toggle("hidden", hideForAdhkar);
   }
 
   const next = computeNextPrayer(row);
