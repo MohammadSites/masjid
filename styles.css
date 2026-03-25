@@ -236,8 +236,11 @@ body::before {
   margin-bottom: 12px;
   text-shadow: var(--text-shadow);
 }
+.adhkar-box.visible .adhkar-title {
+  display: none !important;
+}
 .adhkar-quote {
-  font-size: calc(clamp(1.35rem, 3.2vw, 2.6rem) - 10px);
+  font-size: calc(clamp(1.35rem, 3.2vw, 2.6rem) - 22px);
   font-weight: 700;
   color: var(--text);
   line-height: 1.45;
@@ -279,12 +282,8 @@ body::before {
   padding: clamp(40px, 6vh, 88px) clamp(36px, 5vw, 100px);
   justify-content: center;
 }
-.hero.adhkar-visible .adhkar-title {
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
-  margin-bottom: clamp(16px, 2vh, 32px);
-}
 .hero.adhkar-visible .adhkar-quote {
-  font-size: calc(clamp(2.7rem, 6.4vw, 5.2rem) - 10px);
+  font-size: calc(clamp(2.7rem, 6.4vw, 5.2rem) - 22px);
   line-height: 1.42;
   max-width: 100%;
   flex: 1 1 auto;
