@@ -62,6 +62,12 @@ let adhkarQuoteIndex = 0;
 let lastAdhkarAdvanceTime = null;
 let adhkarCyclesComplete = false;
 
+/** Device time + optional summer-time offset; use for clock, dates, and prayer comparisons. */
+function getWallClockNow(){
+  const ms = cfg && cfg.summerTime ? 60 * 60 * 1000 : 0;
+  return new Date(Date.now() + ms);
+}
+
 /** مدة عرض كل شريحة أذكار (ثوانٍ) */
 const ADHKAR_SLIDE_SECONDS = 11;
 
@@ -206,7 +212,7 @@ function applyLang(){
 }
 
 function findTodayRow(){
-  const now = new Date();
+  const now = getWallClockNow();
   const month = now.getMonth() + 1;
   const day = now.getDate();
   if (timetableFormat === "jerusalem") {
@@ -221,15 +227,13 @@ function findTodayRow(){
       isha: r.isha
     };
   }
-  const id = todayISO();
+  const id = todayISO(now);
   return timetableRows.find(r => r.date === id) || null;
 }
 
 const IQAMAH_OFFSET_MINUTES = { fajr: 25, dhuhr: 15, asr: 15, maghrib: 10, isha: 10 };
 /** Black "وقت الصلاة" screen duration (minutes) after iqamah, per prayer */
 const ADHKAR_DURATION_MINUTES = { fajr: 11, dhuhr: 10, asr: 10, maghrib: 10, isha: 12 };
-/** Hide Eid notice after this date (19 March 2026 20:00) */
-const EID_NOTICE_HIDE_AT = new Date(2026, 2, 19, 20, 0, 0);
 const PRAYER_KEYS = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
 function prayerName(key){
   const names = { fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء" };
@@ -276,7 +280,7 @@ function getHeroState(todayRow, now){
 }
 
 function computeNextPrayer(todayRow){
-  const now = new Date();
+  const now = getWallClockNow();
   const list = [
     {key:"fajr", name: prayerName("fajr"), time: todayRow.fajr},
     {key:"dhuhr", name: prayerName("dhuhr"), time: todayRow.dhuhr},
@@ -411,7 +415,7 @@ function startSlideshow(){
 }
 
 function tick(){
-  const now = new Date();
+  const now = getWallClockNow();
   const clockEl = el("clock");
   const dateEl = el("todayDate");
   const heroNextEl = el("heroNext");
@@ -423,11 +427,6 @@ function tick(){
   const heroEl = document.querySelector(".hero");
   const prayerCardsEl = el("prayerCards");
   const prayerTimeScreen = el("prayerTimeScreen");
-  const eidNotice = el("eidNotice");
-  if (eidNotice) {
-    if (now < EID_NOTICE_HIDE_AT) eidNotice.classList.remove("hidden");
-    else eidNotice.classList.add("hidden");
-  }
   if(clockEl) clockEl.textContent = formatClock12h(now);
   if(dateEl) dateEl.textContent = formatDateHuman(now, cfg.lang);
   const todayKey = todayISO(now);
@@ -558,6 +557,8 @@ function openAdmin(){
   el("adminMosqueName").value = cfg.mosqueName || "";
   el("adminLang").value = cfg.lang || "ar";
   el("adminSlideSec").value = cfg.slideSeconds || 20;
+  const summerEl = el("adminSummerTime");
+  if (summerEl) summerEl.checked = !!cfg.summerTime;
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
   const bootRow = document.getElementById("adminStartOnBootRow");
   const bootCb = el("adminStartOnBoot");
@@ -588,6 +589,7 @@ function wireAdmin(){
     cfg.mosqueName = el("adminMosqueName").value.trim() || cfg.mosqueName;
     cfg.lang = el("adminLang").value;
     cfg.slideSeconds = Number(el("adminSlideSec").value) || 20;
+    if (el("adminSummerTime")) cfg.summerTime = el("adminSummerTime").checked;
     cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
     setStoredConfig(cfg);
     if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
@@ -658,7 +660,7 @@ async function bootstrap(){
         cfg = await loadJSON(DEFAULTS_URL);
       } catch(e) {
         console.log("Config load error:", e);
-        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 20, tickerMessages: [] };
+        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 20, tickerMessages: [], summerTime: false };
       }
       setStoredConfig(cfg);
     }
@@ -710,7 +712,7 @@ async function bootstrap(){
     const clockEl = document.getElementById("clock");
     if (clockEl) {
       setInterval(() => {
-        const now = new Date();
+        const now = getWallClockNow();
         const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
         const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
         const ampm = h >= 12 ? "PM" : "AM";
