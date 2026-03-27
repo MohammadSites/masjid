@@ -7,6 +7,9 @@ const HIJRI_URL = "data/hijri.json";
 const LS_CONFIG = "msq_cfg_v1";
 const LS_TIMETABLE = "msq_timetable_csv_v1";
 
+/** Extra time added to the device clock for prayer logic (summer / DST). Set to 0 next winter. */
+const WALL_CLOCK_OFFSET_MS = 60 * 60 * 1000;
+
 // Fallback timetable data (March) for TV browsers that can't load files
 const FALLBACK_TIMETABLE = [
   {MonthNum:"3",Day:"1",fajr:"04:44",sunrise:"06:03",dhuhr:"11:51",asr:"15:08",maghrib:"17:43",isha:"18:58"},
@@ -62,17 +65,9 @@ let adhkarQuoteIndex = 0;
 let lastAdhkarAdvanceTime = null;
 let adhkarCyclesComplete = false;
 
-/** Treat true / "true" as on (localStorage JSON sometimes stringifies oddly on some devices). */
-function summerTimeEnabled(){
-  if (!cfg) return false;
-  const v = cfg.summerTime;
-  return v === true || v === "true";
-}
-
-/** Device time + optional summer-time offset; use for clock, dates, and prayer comparisons. */
+/** Device time + WALL_CLOCK_OFFSET_MS; use for clock, dates, and prayer comparisons. */
 function getWallClockNow(){
-  const ms = summerTimeEnabled() ? 60 * 60 * 1000 : 0;
-  return new Date(Date.now() + ms);
+  return new Date(Date.now() + WALL_CLOCK_OFFSET_MS);
 }
 
 /** مدة عرض كل شريحة أذكار (ثوانٍ) */
@@ -563,7 +558,6 @@ function persistAdminFormFromDialog(closeAfter){
   cfg.mosqueName = el("adminMosqueName").value.trim() || cfg.mosqueName;
   cfg.lang = el("adminLang").value;
   cfg.slideSeconds = Number(el("adminSlideSec").value) || 20;
-  if (el("adminSummerTime")) cfg.summerTime = el("adminSummerTime").checked;
   cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
   setStoredConfig(cfg);
   if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
@@ -582,8 +576,6 @@ function openAdmin(){
   el("adminMosqueName").value = cfg.mosqueName || "";
   el("adminLang").value = cfg.lang || "ar";
   el("adminSlideSec").value = cfg.slideSeconds || 20;
-  const summerEl = el("adminSummerTime");
-  if (summerEl) summerEl.checked = summerTimeEnabled();
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
   const bootRow = document.getElementById("adminStartOnBootRow");
   const bootCb = el("adminStartOnBoot");
@@ -611,8 +603,6 @@ function wireAdmin(){
   });
 
   el("saveBtn").addEventListener("click", () => persistAdminFormFromDialog(true));
-  const summerCb = el("adminSummerTime");
-  if (summerCb) summerCb.addEventListener("change", () => persistAdminFormFromDialog(false));
 
   el("importTimetable").addEventListener("change", async (e)=>{
     const f = e.target.files?.[0];
@@ -676,7 +666,7 @@ async function bootstrap(){
         cfg = await loadJSON(DEFAULTS_URL);
       } catch(e) {
         console.log("Config load error:", e);
-        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 20, tickerMessages: [], summerTime: false };
+        cfg = { mosqueName: "مسجد خليل عبد الرحمن", lang: "ar", slideSeconds: 20, tickerMessages: [] };
       }
       setStoredConfig(cfg);
     }
