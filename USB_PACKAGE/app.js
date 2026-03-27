@@ -62,9 +62,16 @@ let adhkarQuoteIndex = 0;
 let lastAdhkarAdvanceTime = null;
 let adhkarCyclesComplete = false;
 
+/** Treat true / "true" as on (localStorage JSON sometimes stringifies oddly on some devices). */
+function summerTimeEnabled(){
+  if (!cfg) return false;
+  const v = cfg.summerTime;
+  return v === true || v === "true";
+}
+
 /** Device time + optional summer-time offset; use for clock, dates, and prayer comparisons. */
 function getWallClockNow(){
-  const ms = cfg && cfg.summerTime ? 60 * 60 * 1000 : 0;
+  const ms = summerTimeEnabled() ? 60 * 60 * 1000 : 0;
   return new Date(Date.now() + ms);
 }
 
@@ -552,13 +559,31 @@ function tick(){
   renderTimes(row, next.key);
 }
 
+function persistAdminFormFromDialog(closeAfter){
+  cfg.mosqueName = el("adminMosqueName").value.trim() || cfg.mosqueName;
+  cfg.lang = el("adminLang").value;
+  cfg.slideSeconds = Number(el("adminSlideSec").value) || 20;
+  if (el("adminSummerTime")) cfg.summerTime = el("adminSummerTime").checked;
+  cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  setStoredConfig(cfg);
+  if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
+    window.StartOnBootPlugin.setEnabled({ enabled: el("adminStartOnBoot").checked }).catch(function(){});
+  }
+  applyLang();
+  tick();
+  if (closeAfter) {
+    const d = el("adminDialog");
+    if (d && typeof d.close === "function") d.close();
+  }
+}
+
 function openAdmin(){
   const d = el("adminDialog");
   el("adminMosqueName").value = cfg.mosqueName || "";
   el("adminLang").value = cfg.lang || "ar";
   el("adminSlideSec").value = cfg.slideSeconds || 20;
   const summerEl = el("adminSummerTime");
-  if (summerEl) summerEl.checked = !!cfg.summerTime;
+  if (summerEl) summerEl.checked = summerTimeEnabled();
   el("adminTicker").value = (cfg.tickerMessages || []).join("\n");
   const bootRow = document.getElementById("adminStartOnBootRow");
   const bootCb = el("adminStartOnBoot");
@@ -585,18 +610,9 @@ function wireAdmin(){
     }
   });
 
-  el("saveBtn").addEventListener("click", ()=>{
-    cfg.mosqueName = el("adminMosqueName").value.trim() || cfg.mosqueName;
-    cfg.lang = el("adminLang").value;
-    cfg.slideSeconds = Number(el("adminSlideSec").value) || 20;
-    if (el("adminSummerTime")) cfg.summerTime = el("adminSummerTime").checked;
-    cfg.tickerMessages = el("adminTicker").value.split("\n").map(s=>s.trim()).filter(Boolean);
-    setStoredConfig(cfg);
-    if (window.StartOnBootPlugin && el("adminStartOnBoot")) {
-      window.StartOnBootPlugin.setEnabled({ enabled: el("adminStartOnBoot").checked }).catch(function(){});
-    }
-    applyLang();
-  });
+  el("saveBtn").addEventListener("click", () => persistAdminFormFromDialog(true));
+  const summerCb = el("adminSummerTime");
+  if (summerCb) summerCb.addEventListener("change", () => persistAdminFormFromDialog(false));
 
   el("importTimetable").addEventListener("change", async (e)=>{
     const f = e.target.files?.[0];
