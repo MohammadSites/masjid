@@ -7,6 +7,10 @@ const HIJRI_URL = "data/hijri.json";
 const LS_CONFIG = "msq_cfg_v1";
 const LS_TIMETABLE = "msq_timetable_csv_v1";
 
+/** Added to timetable CSV times for prayer cards, sunrise, and adhan scheduling (not the main clock). Set to 0 next winter. */
+const PRAYER_TIMETABLE_OFFSET_HOURS = 1;
+const PRAYER_TIMETABLE_OFFSET_MS = PRAYER_TIMETABLE_OFFSET_HOURS * 60 * 60 * 1000;
+
 // Fallback timetable data (March) for TV browsers that can't load files
 const FALLBACK_TIMETABLE = [
   {MonthNum:"3",Day:"1",fajr:"04:44",sunrise:"06:03",dhuhr:"11:51",asr:"15:08",maghrib:"17:43",isha:"18:58"},
@@ -77,6 +81,15 @@ function hhmmToDate(hhmm, baseDate=new Date()){
   const d = new Date(baseDate);
   d.setHours(hh, mm, 0, 0);
   return d;
+}
+/** TV / device wall clock (no offset). */
+function getDeviceNow(){
+  return new Date();
+}
+/** Adhan instant from CSV row time + summer offset (for hero state & countdowns). */
+function prayerTimeToDate(hhmm, baseDate=new Date()){
+  const d = hhmmToDate(hhmm, baseDate);
+  return new Date(d.getTime() + PRAYER_TIMETABLE_OFFSET_MS);
 }
 function addHoursToHhmm(hhmm, hours){
   if(!hhmm || !hhmm.match(/\d/)) return hhmm;
@@ -206,7 +219,7 @@ function applyLang(){
 }
 
 function findTodayRow(){
-  const now = new Date();
+  const now = getDeviceNow();
   const month = now.getMonth() + 1;
   const day = now.getDate();
   if (timetableFormat === "jerusalem") {
@@ -246,14 +259,14 @@ function getNextDayFajr(now) {
   } else {
     tomRow = timetableRows.find(r => r.date === todayISO(tomorrow));
   }
-  return tomRow ? hhmmToDate(tomRow.fajr, tomorrow) : null;
+  return tomRow ? prayerTimeToDate(tomRow.fajr, tomorrow) : null;
 }
 
 function getHeroState(todayRow, now){
   const list = PRAYER_KEYS.map(key => ({
     key,
     name: prayerName(key),
-    adhanTime: hhmmToDate(todayRow[key], now),
+    adhanTime: prayerTimeToDate(todayRow[key], now),
     offsetMin: IQAMAH_OFFSET_MINUTES[key]
   }));
   for (let i = 0; i < list.length; i++) {
@@ -276,7 +289,7 @@ function getHeroState(todayRow, now){
 }
 
 function computeNextPrayer(todayRow){
-  const now = new Date();
+  const now = getDeviceNow();
   const list = [
     {key:"fajr", name: prayerName("fajr"), time: todayRow.fajr},
     {key:"dhuhr", name: prayerName("dhuhr"), time: todayRow.dhuhr},
@@ -286,7 +299,7 @@ function computeNextPrayer(todayRow){
   ];
 
   for(const p of list){
-    const dt = hhmmToDate(p.time, now);
+    const dt = prayerTimeToDate(p.time, now);
     if(dt > now) return { ...p, dt };
   }
 
@@ -301,27 +314,27 @@ function computeNextPrayer(todayRow){
     tomRow = timetableRows.find(r => r.date === todayISO(tomorrow));
   }
   if(tomRow){
-    const dt = hhmmToDate(tomRow.fajr, tomorrow);
+    const dt = prayerTimeToDate(tomRow.fajr, tomorrow);
     return { key:"fajr", name: list[0].name, time: tomRow.fajr, dt };
   }
-  return { ...list[0], dt: hhmmToDate(list[0].time, now) };
+  return { ...list[0], dt: prayerTimeToDate(list[0].time, now) };
 }
 
 function renderTimes(todayRow, nextKey){
   const sunriseName = cfg.lang==="ar"?"الشروق":(cfg.lang==="he"?"זריחה":"Sunrise");
   const items = [
-    {k:"fajr", n: cfg.lang==="ar"?"الفجر":(cfg.lang==="he"?"פג׳ר":"Fajr"), v: todayRow.fajr},
-    {k:"dhuhr", n: cfg.lang==="ar"?"الظهر":(cfg.lang==="he"?"ד׳והר":"Dhuhr"), v: todayRow.dhuhr},
-    {k:"asr", n: cfg.lang==="ar"?"العصر":(cfg.lang==="he"?"עסר":"Asr"), v: todayRow.asr},
-    {k:"maghrib", n: cfg.lang==="ar"?"المغرب":(cfg.lang==="he"?"מגריב":"Maghrib"), v: todayRow.maghrib},
-    {k:"isha", n: cfg.lang==="ar"?"العشاء":(cfg.lang==="he"?"עִשָא":"Isha"), v: todayRow.isha},
+    {k:"fajr", n: cfg.lang==="ar"?"الفجر":(cfg.lang==="he"?"פג׳ר":"Fajr"), v: addHoursToHhmm(todayRow.fajr, PRAYER_TIMETABLE_OFFSET_HOURS)},
+    {k:"dhuhr", n: cfg.lang==="ar"?"الظهر":(cfg.lang==="he"?"ד׳והר":"Dhuhr"), v: addHoursToHhmm(todayRow.dhuhr, PRAYER_TIMETABLE_OFFSET_HOURS)},
+    {k:"asr", n: cfg.lang==="ar"?"العصر":(cfg.lang==="he"?"עסר":"Asr"), v: addHoursToHhmm(todayRow.asr, PRAYER_TIMETABLE_OFFSET_HOURS)},
+    {k:"maghrib", n: cfg.lang==="ar"?"المغرب":(cfg.lang==="he"?"מגריב":"Maghrib"), v: addHoursToHhmm(todayRow.maghrib, PRAYER_TIMETABLE_OFFSET_HOURS)},
+    {k:"isha", n: cfg.lang==="ar"?"العشاء":(cfg.lang==="he"?"עִשָא":"Isha"), v: addHoursToHhmm(todayRow.isha, PRAYER_TIMETABLE_OFFSET_HOURS)},
   ];
   const sunriseCard = document.getElementById("sunriseCard");
   if (sunriseCard && todayRow.sunrise) {
     const sunNameEl = sunriseCard.querySelector(".name");
     const sunTimeEl = document.getElementById("sunriseTime");
     const sunAmpmEl = document.getElementById("sunriseAmpm");
-    const { time, ampm } = formatTime12h(todayRow.sunrise);
+    const { time, ampm } = formatTime12h(addHoursToHhmm(todayRow.sunrise, PRAYER_TIMETABLE_OFFSET_HOURS));
     if (sunNameEl) sunNameEl.textContent = sunriseName;
     if (sunTimeEl) sunTimeEl.textContent = time;
     if (sunAmpmEl) sunAmpmEl.textContent = ampm;
@@ -411,7 +424,7 @@ function startSlideshow(){
 }
 
 function tick(){
-  const now = new Date();
+  const now = getDeviceNow();
   const clockEl = el("clock");
   const dateEl = el("todayDate");
   const heroNextEl = el("heroNext");
